@@ -1,0 +1,106 @@
+.publication {
+  background: #fff;
+  margin: 15px 10px;
+  border-radius: 10px;
+  padding: 5px 0px;
+  box-shadow: 0 10px 25px rgba(92, 99, 105, 0.2);
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.profile2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile2 div {
+  margin-left: 5px;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  object-fit: cover;
+  color: #fff;
+  font-weight: bold;
+  background: #fb1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--type-second);
+}
+
+.profile p {
+  margin-left: 5px;
+  font-weight: bold;
+  font-family: var(--type-second);
+  margin-bottom: 0px !important;
+}
+
+.img {
+  width: 100%;
+}
+
+.description {
+  padding: 0 5px;
+}
+
+.description h2 {
+  margin-top: 5px;
+  font-size: 30px;
+  font-family: var(--type-second);
+}
+
+.description span {
+  font-style: italic;
+}
+
+.description p {
+  font-size: 14px;
+  margin-top: 5px;
+  color: #949c9b;
+}
+
+.viewComment {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.icons {
+  margin-top: 10px;
+  margin-right: 20px;
+  width: 50%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.statusButton {
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 5px 5px 15px 0px rgba(44, 44, 44, 0.35);
+  width: 50px;
+}
+
+.commentButton {
+  background: #fff !important;
+  border: none !important;
+  border-radius: 50% !important;
+  box-shadow: 5px 5px 15px 0px rgba(44, 44, 44, 0.35) !important;
+}
+
+.modalHeader {
+  position: fixed !important;
+  background-color: #fff !important;
+  z-index: 1000;
+  width: 100%;
+}
+
+.modalBody {
+  margin-top: 65px;
+}

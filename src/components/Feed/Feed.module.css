@@ -1,0 +1,42 @@
+.feed {
+  flex: 1;
+  background: #f1f8ff;
+  padding: 1px 0px 40px 0px;
+}
+
+.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.notFound div {
+  margin-top: 40px;
+}
+
+.notFound span {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fb1;
+  margin: 40px 0px 10px 0px;
+}
+
+.button {
+  font-size: 1rem;
+  font-family: var(--type-first);
+  border: none;
+  border-radius: 0.4rem;
+  background: #fb1;
+  color: #764701;
+  min-width: 8rem;
+  padding: 0.8rem 1.2rem;
+  box-sizing: border-box;
+  transition: 0.1s;
+  margin: 10px 0px 40px 0px;
+}
+
+.button:hover,
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px #fea, 0 0 0 4px #fb1;
+}

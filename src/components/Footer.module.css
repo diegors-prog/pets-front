@@ -1,0 +1,36 @@
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  min-height: 44px;
+  background: #fff;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.profile {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  color: #fff;
+  font-weight: bold;
+  background: #fb1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--type-second);
+}
+
+.profile span {
+  list-style: none !important;
+  text-decoration: none !important;
+}

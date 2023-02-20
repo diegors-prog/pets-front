@@ -1,0 +1,38 @@
+.createPublication {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.file {
+  margin-bottom: 1rem;
+}
+
+.preview {
+  border-radius: 1rem;
+  background-size: cover;
+  background-position: center center;
+  margin-top: 40px;
+}
+
+.preview::after {
+  content: '';
+  display: block;
+  height: 0px;
+  padding-bottom: 100%;
+}
+
+@media (max-width: 40rem) {
+  .createPublication {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .preview {
+    margin-top: 0px;
+    margin-bottom: 20px;
+  }
+}

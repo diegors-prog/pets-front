@@ -1,0 +1,33 @@
+.comments {
+  margin-bottom: 90px;
+}
+
+.comment p {
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.profile + .profile {
+  margin-top: 20px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.avatar {
+  margin-right: 5px;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  object-fit: cover;
+  color: #fff;
+  font-weight: bold;
+  background: #fb1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
