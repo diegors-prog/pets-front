@@ -5,6 +5,7 @@ import CreatePublication from '../components/CreatePublication/CreatePublication
 import Profile from '../components/Profile/Profile';
 import styles from './Home.module.css';
 import NotFound from '../components/NotFound/NotFound';
+import GeoLocation from '../components/GeoLocation/GeoLocation';
 
 function Home() {
   return (
@@ -12,6 +13,7 @@ function Home() {
       <div className={styles.forms}>
         <Routes>
           <Route path="/" element={<Feed />} />
+          <Route path="/location" element={<GeoLocation />} />
           <Route path="/create-publication" element={<CreatePublication />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />

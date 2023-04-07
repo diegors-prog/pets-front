@@ -51,9 +51,23 @@ export function USER_POST(body) {
   };
 }
 
-export function PUBLICATION_POST(formData, token) {
+export function PUBLICATION_POST(body, token) {
   return {
     url: API_URL + '/Publication',
+    options: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
+export function FILE_POST(formData, token) {
+  return {
+    url: API_URL + '/Publication/uploadFile',
     options: {
       method: 'POST',
       headers: {
@@ -76,9 +90,9 @@ export function PUBLICATION_DELETE(id) {
   };
 }
 
-export function PUBLICATIONS_GET() {
+export function PUBLICATIONS_GET(latitude, longitude) {
   return {
-    url: API_URL + '/Publication',
+    url: `${API_URL}/Publication/${latitude}/${longitude}`,
     options: {
       method: 'GET',
       headers: {
@@ -110,6 +124,19 @@ export function COMMENT_POST(body) {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
       body: JSON.stringify(body),
+    },
+  };
+}
+
+export function COMMENTS_GET(publicationId) {
+  console.log({ id: publicationId});
+  return {
+    url: `${API_URL}/comment/${publicationId}`,
+    options: {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
     },
   };
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './Feed.module.css';
 import { Link } from 'react-router-dom';
 import useFetch from '../../Hooks/useFetch';
+import { UserContext } from '../../UserContext';
 import { PUBLICATIONS_GET } from '../../api';
 import PublicationsFeed from './PublicationsFeed/PublicationsFeed';
 import Error from '../Errors/Error';
@@ -10,19 +11,20 @@ import { ReactComponent as Illustration } from '../../Assets/Illustration.svg';
 
 const Feed = () => {
   const { data, loading, error, request } = useFetch();
+  const { latitude, longitude, errorLocation } = React.useContext(UserContext);
 
   React.useEffect(() => {
     async function fetchPublications() {
-      const { url, options } = PUBLICATIONS_GET();
+      const { url, options } = PUBLICATIONS_GET(latitude, longitude);
       const { response, json } = await request(url, options);
       console.log(json);
     }
     fetchPublications();
-  }, [request]);
+  }, [request, latitude, longitude]);
 
   if (error) return <Error error={error} />;
   if (loading && data == null) return <Loading />;
-  if (data)
+  if (data && data.length !== 0)
     return (
       <section className={`${styles.feed} container`}>
         {data.map((publication) => (

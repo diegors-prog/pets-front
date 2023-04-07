@@ -22,9 +22,9 @@ const CommentPublication = ({ id, commentss, username }) => {
             <div className={styles.comment} key={index}>
               <div className={styles.profile}>
                 <div className={styles.avatar}>
-                  <span>{username.slice(0, 1).toUpperCase()}</span>
+                  <span>{item.user.name.slice(0, 1).toUpperCase()}</span>
                 </div>
-                <b>{username.split(' ')[0]}</b>
+                <b>{item.user.name.split(' ')[0]}</b>
               </div>
               <p>{item.content}</p>
             </div>

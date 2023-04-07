@@ -18,7 +18,8 @@ const useFetch = () => {
       json = null;
       setError(err.message);
     } finally {
-      setData(json.data);
+      console.log(json?.data);
+      setData(json?.data);
       setLoading(false);
       return { response, json };
     }
@@ -29,6 +30,8 @@ const useFetch = () => {
     error,
     loading,
     request,
+    setError,
+    setLoading,
   };
 };
 

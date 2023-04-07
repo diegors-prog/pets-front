@@ -9,10 +9,11 @@ import styles from './Login.module.css';
 import NotFound from '../components/NotFound/NotFound';
 
 function Login() {
-  const { login } = React.useContext(UserContext);
+  const { login, latitude, longitude } = React.useContext(UserContext);
 
-  if (login === true) return <Navigate to="/" />;
-  return (
+  if (login === true && latitude && longitude) return <Navigate to="/" />;
+  else if (login === true && !latitude && !longitude) return <Navigate to="/location" />;
+  else return (
     <section className={styles.login}>
       <div className={styles.forms}>
         <Routes>

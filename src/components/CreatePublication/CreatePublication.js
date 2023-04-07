@@ -3,9 +3,10 @@ import styles from './CreatePublication.module.css';
 import { useNavigate } from 'react-router-dom';
 import useForm from '../../Hooks/useForm';
 import useFetch from '../../Hooks/useFetch';
+import { UserContext } from '../../UserContext';
 import Input from '../Forms/Input';
 import Button from '../Forms/Button';
-import { PUBLICATION_POST } from '../../api';
+import { PUBLICATION_POST, FILE_POST } from '../../api';
 import Error from '../Errors/Error';
 
 const CreatePublication = () => {
@@ -13,27 +14,48 @@ const CreatePublication = () => {
   const typeOfAnimal = useForm();
   const description = useForm();
   const [image, setImg] = React.useState({ preview: null, raw: null });
-  const { data, error, loading, request } = useFetch();
+  const { data, error, loading, request, setError, setLoading } = useFetch();
+  const { latitude, longitude } = React.useContext(UserContext);
   const navigate = useNavigate();
 
   React.useEffect(() => {
     if (data) navigate('/');
   }, [data, navigate]);
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append('title', title.value);
-    formData.append('typeOfAnimal', typeOfAnimal.value);
-    formData.append('description', description.value);
-    formData.append('image', image.raw);
-    for (var key of formData.entries()) {
-      console.log(key[0] + ', ' + key[1]);
-    }
+  function toString(number) {
+    return 
+  }
 
-    const token = window.localStorage.getItem('token');
-    const { url, options } = PUBLICATION_POST(formData, token);
-    request(url, options);
+  async function handleSubmit(event) {
+    try {
+      event.preventDefault();
+      const formData = new FormData();
+      // formData.append('title', title.value);
+      // formData.append('typeOfAnimal', typeOfAnimal.value);
+      // formData.append('description', description.value);
+      formData.append('image', image.raw);
+      // formData.append('latitude', new Blob([latitude]));
+      // formData.append('longitude', new Blob([longitude]));
+
+      for (var key of formData.entries()) {
+        console.log(key[0] + ', ' + key[1]);
+      }
+
+      const token = window.localStorage.getItem('token');
+      const file = FILE_POST(formData, token);
+      const url = await request(file.url, file.options);
+      console.log(url);
+      if (!url.response.ok) throw new Error(url.json.message);
+      else {
+        const create = PUBLICATION_POST({ title: title.value, typeOfAnimal: typeOfAnimal.value, description: description.value, image: url.json.data, latitude: latitude, longitude: longitude }, token);
+        const newPublication = await request(create.url, create.options);
+      }
+    }
+    catch (err) {
+      setError('O tipo do arquivo deve ser um dos seguintes: image/jpeg, image/png, image/gif.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   function handleImgChange({ target }) {

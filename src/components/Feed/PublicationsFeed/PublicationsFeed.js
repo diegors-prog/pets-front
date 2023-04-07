@@ -7,12 +7,13 @@ import PublicationDelete from './PublicationDelete/PublicationDelete';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import useFetch from '../../../Hooks/useFetch';
-import { PUBLICATION_GET } from '../../../api';
+import { PUBLICATION_GET, COMMENTS_GET } from '../../../api';
 import CommentPublication from '../CommentPublication/CommentPublication';
 
 const PublicationsFeed = ({ publication }) => {
   const user = React.useContext(UserContext);
   const { data, error, loading, request } = useFetch();
+  const [comments, setComments] = React.useState(null);
   const [show, setShow] = React.useState(false);
   const handleClose = () => {
     setShow(false);
@@ -27,17 +28,26 @@ const PublicationsFeed = ({ publication }) => {
       console.log(json);
     }
     fetchPublication();
+
+    async function fetchComments() {
+      const { url, options } = COMMENTS_GET(publication.id);
+      const response = await fetch(url, options);
+      const json = await response.json();
+      if (response.ok === false) throw new Error(json.message);
+      console.log(json);
+      setComments(json.data)
+    }
+    fetchComments();
   }, [publication, request]);
-  
   if (data)
     return (
       <div className={styles.publication}>
         <div className={styles.profile}>
           <div className={styles.profile2}>
             <div>
-              <span>{publication.user.name.slice(0, 1).toUpperCase()}</span>
+              <span>{data.user.name.slice(0, 1).toUpperCase()}</span>
             </div>
-            <p>{publication.user.name.split(' ')[0]}</p>
+            <p>{data.user.name.split(' ')[0]}</p>
           </div>
           {user.data && user.data.name === data.user.name ? (
             <PublicationDelete id={data.id} />
@@ -50,7 +60,7 @@ const PublicationsFeed = ({ publication }) => {
         </div>
         <div className={styles.description}>
           <div className={styles.viewComment}>
-            <h2>{publication.title}</h2>
+            <h2>{data.title}</h2>
             <div className={styles.icons}>
               <button className={styles.statusButton}>
                 <Views className={styles.svg} />
@@ -75,7 +85,7 @@ const PublicationsFeed = ({ publication }) => {
                     <CommentPublication
                       key={data.id}
                       id={publication.id}
-                      commentss={data.comments}
+                      commentss={comments}
                       username={user.data.name}
                     />
                   )}
@@ -83,8 +93,8 @@ const PublicationsFeed = ({ publication }) => {
               </Modal>
             </div>
           </div>
-          <span>{publication.typeOfAnimal}</span>
-          <p>{publication.description}</p>
+          <span>{data.typeOfAnimal}</span>
+          <p>{data.description}</p>
         </div>
       </div>
     );
