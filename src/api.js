@@ -1,4 +1,4 @@
-export const API_URL = 'https://localhost:44330/api';
+const API_URL = 'https://localhost:44330/api';
 
 export function TOKEN_POST(body) {
   return {
@@ -156,7 +156,7 @@ export function PASSWORD_LOST(body) {
 
 export function PASSWORD_RESET(body) {
   return {
-    url: API_URL + '/api/password/reset',
+    url: API_URL + '/User/resetPassword',
     options: {
       method: 'POST',
       headers: {

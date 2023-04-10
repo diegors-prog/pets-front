@@ -17,16 +17,13 @@ const LoginPasswordReset = () => {
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const key = params.get('key');
-    const login = params.get('login');
     if (key) setKey(key);
-    if (login) setLogin(login);
   }, []);
 
   async function handleSubmit(event) {
     event.preventDefault();
     if (password.validate) {
       const { url, options } = PASSWORD_RESET({
-        login,
         key,
         password: password.value,
       });
