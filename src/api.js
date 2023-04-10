@@ -143,7 +143,7 @@ export function COMMENTS_GET(publicationId) {
 
 export function PASSWORD_LOST(body) {
   return {
-    url: API_URL + '/api/password/lost',
+    url: API_URL + '/User/sendEmail',
     options: {
       method: 'POST',
       headers: {

@@ -33,7 +33,7 @@ const LoginPasswordLost = () => {
           <Button>Enviar Email</Button>
         )}
       </form>
-
+      <p>{data}</p>
       <Error error={error} />
     </section>
   );
