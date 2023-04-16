@@ -10,8 +10,8 @@ import Loading from '../Loading/Loading';
 import { ReactComponent as Illustration } from '../../Assets/Illustration.svg';
 
 const Feed = () => {
-  const { data, loading, error, request } = useFetch();
-  const { latitude, longitude, errorLocation } = React.useContext(UserContext);
+  const { data, loading, error, request, setLoading } = useFetch();
+  const { latitude, longitude } = React.useContext(UserContext);
 
   React.useEffect(() => {
     async function fetchPublications() {
@@ -23,18 +23,18 @@ const Feed = () => {
   }, [request, latitude, longitude]);
 
   if (error) return <Error error={error} />;
-  if (loading && data == null) return <Loading />;
-  if (data && data.length !== 0)
+  if (loading) return <Loading />;
+  if (data && data.length > 0) {
     return (
-      <section className={`${styles.feed} container`}>
+      <section className={`${styles.feed} container animeLeft`}>
         {data.map((publication) => (
           <PublicationsFeed key={publication.id} publication={publication} />
         ))}
       </section>
     );
-  else
+  } else {
     return (
-      <section className={`${styles.notFound} container`}>
+      <section className={`${styles.notFound} container animeLeft`}>
         <div className={styles.illustration}>
           <Illustration />
         </div>
@@ -45,6 +45,7 @@ const Feed = () => {
         </Link>
       </section>
     );
+  }
 };
 
 export default Feed;

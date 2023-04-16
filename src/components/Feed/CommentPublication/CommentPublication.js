@@ -3,7 +3,7 @@ import styles from './CommentPublication.module.css';
 import CommentForm from '../CommentForm/CommentForm';
 import { style } from 'dom-helpers';
 
-const CommentPublication = ({ id, commentss, username }) => {
+const CommentPublication = ({ id, commentss }) => {
   const [comments, setComments] = React.useState(() => commentss);
   /*const commentsSection = React.useRef(null);*/
 
@@ -12,12 +12,12 @@ const CommentPublication = ({ id, commentss, username }) => {
   }, [comments]);*/
   return (
     <>
-      {commentss.length === 0 ? (
+      {comments.length === 0 ? (
         <div>
           <p>Sem comentários</p>
         </div>
       ) : (
-        <div /*ref={commentsSection}*/ className={styles.comments}>
+        <div /*ref={commentsSection}*/ className={`${styles.comments} animeLeft`}>
           {comments.map((item, index) => (
             <div className={styles.comment} key={index}>
               <div className={styles.profile}>
@@ -31,22 +31,9 @@ const CommentPublication = ({ id, commentss, username }) => {
           ))}
         </div>
       )}
-      <CommentForm id={id} setComments={setComments} />
+      <CommentForm id={id} setComments={setComments} commentss />
     </>
   );
 };
 
 export default CommentPublication;
-
-/*{data && data.comments.length == 0 ? (
-                    <div key={data.photo.id}>
-                      <p>Sem comentários</p>
-                    </div>
-                  ) : (
-                    <CommentPublication
-                      key={data.photo.id}
-                      id={data.photo.id}
-                      comments={data.comments}
-                    />
-                  )}
-                  <CommentForm id={data.comment_post_ID} /> */

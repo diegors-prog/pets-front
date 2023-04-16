@@ -69,6 +69,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .icons {
@@ -80,11 +81,24 @@
 }
 
 .statusButton {
-  background: #fff;
-  border: none;
-  border-radius: 50%;
-  box-shadow: 5px 5px 15px 0px rgba(44, 44, 44, 0.35);
+  background: #fff !important;
+  border: none !important;
+  border-radius: 50% !important;
+  box-shadow: 5px 5px 15px 0px rgba(44, 44, 44, 0.35) !important;
   width: 50px;
+  transition: 0.5s ease !important;
+  opacity: 0.6 !important;
+}
+
+#comBorda {
+  /*outline: none !important;
+  box-shadow: 0 0 0 3px #fea, 0 0 0 4px #fb1 !important;
+  color: #764701 !important;
+  border: 2px solid #fb1 !important;*/
+  border: none !important;
+  box-shadow: inset 0 0 0 2px #fb1 !important;
+  /*transition: 0.5s ease !important;*/
+  opacity: 1 !important;
 }
 
 .commentButton {

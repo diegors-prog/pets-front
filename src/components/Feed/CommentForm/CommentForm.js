@@ -14,10 +14,11 @@ const CommentForm = ({ id, setComments }) => {
     console.log(publicationId);
     const { url, options } = COMMENT_POST({ content: comment, publicationId: publicationId });
     const { response, json } = await request(url, options);
-    console.log({ response: response, json: json.data.value.data});
+    console.log({ response: response, json: json.data});
     if (response.ok) {
       setComment('');
-      setComments((comments) => [...comments, json.data.value.data]);
+      console.log();
+      setComments((comments) => [...comments, json.data]);
     }
   }
 

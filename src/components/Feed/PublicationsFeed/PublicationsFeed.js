@@ -7,17 +7,18 @@ import PublicationDelete from './PublicationDelete/PublicationDelete';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import useFetch from '../../../Hooks/useFetch';
-import { PUBLICATION_GET, COMMENTS_GET } from '../../../api';
+import { PUBLICATION_GET, COMMENTS_GET, PUBLICATION_VIEWS_POST } from '../../../api';
 import CommentPublication from '../CommentPublication/CommentPublication';
 
 const PublicationsFeed = ({ publication }) => {
   const user = React.useContext(UserContext);
   const { data, error, loading, request } = useFetch();
   const [comments, setComments] = React.useState(null);
+  const [publicationViews, setPublicationsViews] = React.useState(null);
+  const [objetoExiste, setObjetoExiste] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const handleClose = () => {
     setShow(false);
-    window.location.reload(true);
   };
   const handleShow = () => setShow(true);
 
@@ -25,7 +26,12 @@ const PublicationsFeed = ({ publication }) => {
     async function fetchPublication() {
       const { url, options } = PUBLICATION_GET(publication.id);
       const { response, json } = await request(url, options);
-      console.log(json);
+      setPublicationsViews(json.data.publicationsViews);
+      console.log(json.data.publicationsViews);
+      const existe = json.data.publicationsViews.some(item => item.userId === user.data.id);
+      console.log(existe);
+      console.log(user.data.id);
+      setObjetoExiste(existe)
     }
     fetchPublication();
 
@@ -38,7 +44,22 @@ const PublicationsFeed = ({ publication }) => {
       setComments(json.data)
     }
     fetchComments();
-  }, [publication, request]);
+  }, [publication, request, user]);
+
+  async function handlePublicationViews() {
+    const wasViewed = publicationViews.find(item => item.userId === user.data.id);
+    console.log(wasViewed);
+    if (!wasViewed) {
+      const { url, options } = PUBLICATION_VIEWS_POST({ publicationId: publication.id })
+      const response = await fetch(url, options);
+      const json = await response.json();
+      if (response.ok === false) throw new Error(json.message);
+      setPublicationsViews([...publicationViews, json.data]);
+      if (json.data)
+        setObjetoExiste(true);
+    }
+  }
+
   if (data)
     return (
       <div className={styles.publication}>
@@ -62,9 +83,14 @@ const PublicationsFeed = ({ publication }) => {
           <div className={styles.viewComment}>
             <h2>{data.title}</h2>
             <div className={styles.icons}>
-              <button className={styles.statusButton}>
+              <Button
+                className={styles.statusButton}
+                id={objetoExiste ? `${styles.comBorda}` : ''}
+                variant="primary"
+                onClick={handlePublicationViews}
+              >
                 <Views className={styles.svg} />
-              </button>
+              </Button>
               <Button
                 className={styles.commentButton}
                 variant="primary"
@@ -76,6 +102,7 @@ const PublicationsFeed = ({ publication }) => {
                 dialogClassName="fullscreen"
                 show={show}
                 onHide={handleClose}
+                onExited={() => window.location.reload(true)}
               >
                 <Modal.Header closeButton className={styles.modalHeader}>
                   <Modal.Title>Comentários</Modal.Title>

@@ -19,12 +19,8 @@ const CreatePublication = () => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (data) navigate('/');
+    if (data) navigate('/feed');
   }, [data, navigate]);
-
-  function toString(number) {
-    return 
-  }
 
   async function handleSubmit(event) {
     try {
@@ -49,6 +45,7 @@ const CreatePublication = () => {
       else {
         const create = PUBLICATION_POST({ title: title.value, typeOfAnimal: typeOfAnimal.value, description: description.value, image: url.json.data, latitude: latitude, longitude: longitude }, token);
         const newPublication = await request(create.url, create.options);
+        navigate('/feed')
       }
     }
     catch (err) {

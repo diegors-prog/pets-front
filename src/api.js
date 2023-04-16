@@ -141,6 +141,20 @@ export function COMMENTS_GET(publicationId) {
   };
 }
 
+export function PUBLICATION_VIEWS_POST(body) {
+  return {
+    url: `${API_URL}/PublicationViews`,
+    options: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
 export function PASSWORD_LOST(body) {
   return {
     url: API_URL + '/User/sendEmail',
@@ -157,6 +171,19 @@ export function PASSWORD_LOST(body) {
 export function PASSWORD_RESET(body) {
   return {
     url: API_URL + '/User/resetPassword',
+    options: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
+export function CONTACT_MESSAGE(body) {
+  return {
+    url: API_URL + '/User/sendEmailContact',
     options: {
       method: 'POST',
       headers: {

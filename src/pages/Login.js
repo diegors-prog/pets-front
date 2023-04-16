@@ -11,8 +11,8 @@ import NotFound from '../components/NotFound/NotFound';
 function Login() {
   const { login, latitude, longitude } = React.useContext(UserContext);
 
-  if (login === true && latitude && longitude) return <Navigate to="/" />;
-  else if (login === true && !latitude && !longitude) return <Navigate to="/location" />;
+  if (login === true && latitude && longitude) return <Navigate to="/feed" />;
+  else if (login === true && !latitude && !longitude) return <Navigate to="/feed/location" />;
   else return (
     <section className={styles.login}>
       <div className={styles.forms}>

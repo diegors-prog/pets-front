@@ -12,7 +12,7 @@ const Profile = () => {
   }
 
   return (
-    <section className={`${styles.profile} container`}>
+    <section className={`${styles.profile} container animeLeft`}>
       <div className={styles.top}>
         <div className={styles.spanImage}>
           <span>{data.name.slice(0, 1).toUpperCase()}</span>

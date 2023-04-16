@@ -50,9 +50,9 @@ export const UserStorage = ({ children }) => {
       await getUser(data.token);
       console.log(latitude, longitude);
       if (latitude && longitude)
-        navigate('/');
+        navigate('/feed');
       else
-      navigate('/location');
+      navigate('/feed/location');
     } catch (err) {
       setError(err.message);
       setLogin(false);
@@ -104,14 +104,13 @@ export const UserStorage = ({ children }) => {
         message: 'Geolocalização não suportada.',
       })
     }
-
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
   }
   getUserLocation();
 
   return (
     <UserContext.Provider
-      value={{ userLogin, userLogout, data, error, loading, login, latitude, longitude, errorLocation }}
+      value={{ userLogin, userLogout, getUserLocation, data, error, loading, login, latitude, longitude, errorLocation }}
     >
       {children}
     </UserContext.Provider>
