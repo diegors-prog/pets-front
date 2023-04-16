@@ -2,10 +2,17 @@ import React from 'react';
 import { PUBLICATION_DELETE } from '../../../../api';
 import useFetch from '../../../../Hooks/useFetch';
 import styles from './PublicationDelete.module.css';
+import Modal from 'react-bootstrap/Modal';
 import { ReactComponent as Delete } from '../../../../Assets/material-delete-forever-black.svg';
 
 const PublicationDelete = ({ id }) => {
   const { loading, request } = useFetch();
+  const [show, setShow] = React.useState(false);
+
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleShow = () => setShow(true);
 
   async function handleClick(event) {
     event.preventDefault();
@@ -13,6 +20,7 @@ const PublicationDelete = ({ id }) => {
     if (confirm) {
       const { url, options } = PUBLICATION_DELETE(id);
       const { response } = await request(url, options);
+      handleClose();
       if (response.ok) window.location.reload();
     }
   }
@@ -24,9 +32,25 @@ const PublicationDelete = ({ id }) => {
           Deletar
         </button>
       ) : (
-        <button onClick={handleClick} className={styles.delete}>
+        <div>
+          <button onClick={handleShow} className={styles.delete}>
           <Delete />
-        </button>
+          </button>
+          <Modal
+            dialogClassName={`${styles.customModal}`}
+            show={show}
+            onHide={handleClose}
+          >
+            <Modal.Header closeButton className={styles.modalHeader}>
+              <Modal.Title>Deletar Publicação</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className={styles.modalBody}>
+              <div className={`${styles.deleteBody} animeLeft`}>
+                    
+              </div>
+            </Modal.Body>
+          </Modal>
+        </div>
       )}
     </>
   );

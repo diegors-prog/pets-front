@@ -18,3 +18,20 @@
   box-shadow: 0 0 0 3px #eee;
   border-color: #333;
 }
+
+/* .customModal {
+  width: 280px !important;
+} */
+
+/* .modalHeader {
+  position: fixed !important;
+  background-color: #fff !important;
+  z-index: 1000;
+  width: 250px;
+} */
+
+.modalBody {
+  /* margin-top: 65px;
+  width: 250px; */
+  height: 200px;
+}

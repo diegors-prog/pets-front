@@ -19,7 +19,7 @@ const GeoLocation = () => {
 	}
 
 	return (
-		<section className={`${styles.geo} container`}>
+		<section className={`${styles.geo} container animeLeft`}>
 			<div className={`${styles.geoContainer}`}>
 				<h2 className='title2'>Geolocalização</h2>
 				<p>A localização é necessária para fornecer recursos específicos.</p>
