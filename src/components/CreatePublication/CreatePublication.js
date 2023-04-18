@@ -10,6 +10,7 @@ import { PUBLICATION_POST, FILE_POST } from '../../api';
 import Error from '../Errors/Error';
 
 const CreatePublication = () => {
+  const isMounted = React.useRef(true); // Criar uma ref para controlar a montagem do componente
   const title = useForm();
   const typeOfAnimal = useForm();
   const description = useForm();
@@ -19,8 +20,10 @@ const CreatePublication = () => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (data) navigate('/feed');
-  }, [data, navigate]);
+    return () => {
+      isMounted.current = false; // Atualizar o valor da ref para false quando o componente for desmontado
+    };
+  }, []);
 
   async function handleSubmit(event) {
     try {
@@ -40,13 +43,14 @@ const CreatePublication = () => {
       const token = window.localStorage.getItem('token');
       const file = FILE_POST(formData, token);
       const url = await request(file.url, file.options);
-      console.log(url);
       if (!url.response.ok) throw new Error(url.json.message);
-      else {
-        const create = PUBLICATION_POST({ title: title.value, typeOfAnimal: typeOfAnimal.value, description: description.value, image: url.json.data, latitude: latitude, longitude: longitude }, token);
-        const newPublication = await request(create.url, create.options);
-        navigate('/feed')
+      if (isMounted.current) {
+        setImg({ preview: null, raw: null });
       }
+
+      const create = PUBLICATION_POST({ title: title.value, typeOfAnimal: typeOfAnimal.value, description: description.value, image: url.json.data, latitude: latitude, longitude: longitude }, token);
+      const newPublication = await request(create.url, create.options);
+      navigate('/feed')
     }
     catch (err) {
       setError('O tipo do arquivo deve ser um dos seguintes: image/jpeg, image/png, image/gif.');

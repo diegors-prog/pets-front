@@ -17,7 +17,7 @@ const Feed = () => {
     async function fetchPublications() {
       const { url, options } = PUBLICATIONS_GET(latitude, longitude);
       const { response, json } = await request(url, options);
-      console.log(json);
+      if (response.ok === false) throw new Error(json.message);
     }
     fetchPublications();
   }, [request, latitude, longitude]);

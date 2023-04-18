@@ -33,5 +33,21 @@
 .modalBody {
   /* margin-top: 65px;
   width: 250px; */
-  height: 200px;
+  height: 250px;
+}
+
+.deleteBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 95%;
+}
+
+.deleteBody label {
+  display: flex;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
 }

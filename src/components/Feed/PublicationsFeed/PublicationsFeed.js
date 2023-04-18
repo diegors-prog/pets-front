@@ -26,11 +26,9 @@ const PublicationsFeed = ({ publication }) => {
     async function fetchPublication() {
       const { url, options } = PUBLICATION_GET(publication.id);
       const { response, json } = await request(url, options);
+      if (response.ok === false) throw new Error(json.message);
       setPublicationsViews(json.data.publicationsViews);
-      console.log(json.data.publicationsViews);
       const existe = json.data.publicationsViews.some(item => item.userId === user.data.id);
-      console.log(existe);
-      console.log(user.data.id);
       setObjetoExiste(existe)
     }
     fetchPublication();
@@ -40,7 +38,6 @@ const PublicationsFeed = ({ publication }) => {
       const response = await fetch(url, options);
       const json = await response.json();
       if (response.ok === false) throw new Error(json.message);
-      console.log(json);
       setComments(json.data)
     }
     fetchComments();
@@ -48,7 +45,6 @@ const PublicationsFeed = ({ publication }) => {
 
   async function handlePublicationViews() {
     const wasViewed = publicationViews.find(item => item.userId === user.data.id);
-    console.log(wasViewed);
     if (!wasViewed) {
       const { url, options } = PUBLICATION_VIEWS_POST({ publicationId: publication.id })
       const response = await fetch(url, options);

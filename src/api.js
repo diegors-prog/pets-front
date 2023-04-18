@@ -78,9 +78,9 @@ export function FILE_POST(formData, token) {
   };
 }
 
-export function PUBLICATION_DELETE(id) {
+export function PUBLICATION_DELETE(id, wasFound) {
   return {
-    url: `${API_URL}/Publication/${id}`,
+    url: `${API_URL}/Publication/${id}/${wasFound}`,
     options: {
       method: 'DELETE',
       headers: {
@@ -129,7 +129,6 @@ export function COMMENT_POST(body) {
 }
 
 export function COMMENTS_GET(publicationId) {
-  console.log({ id: publicationId});
   return {
     url: `${API_URL}/comment/${publicationId}`,
     options: {
