@@ -1,4 +1,5 @@
 import React from 'react';
+import { Toaster, toast } from 'react-hot-toast';
 import { PUBLICATION_DELETE } from '../../../../api';
 import useFetch from '../../../../Hooks/useFetch';
 import styles from './PublicationDelete.module.css';
@@ -7,9 +8,27 @@ import Button from '../../../Forms/Button';
 import { ReactComponent as Delete } from '../../../../Assets/material-delete-forever-black.svg';
 
 const PublicationDelete = ({ id }) => {
+  const isMounted = React.useRef(true);
   const { loading, request } = useFetch();
   const [show, setShow] = React.useState(false);
   const [option, setOption] = React.useState(true);
+
+  React.useEffect(() => {
+    return () => {
+      isMounted.current = false; // Atualizar o valor da ref para false quando o componente for desmontado
+    };
+  }, []);
+
+  const handleSuccess = () => {
+    toast.success('Publicação removida do feed', {
+      duration: 3000,
+      style: {
+        background: 'green',
+        color: '#fff',
+        zIndex: 1000
+      },
+    });
+  };
 
   const handleClose = () => {
     setShow(false);
@@ -23,10 +42,12 @@ const PublicationDelete = ({ id }) => {
     const { url, options } = PUBLICATION_DELETE(id, option);
     const { response } = await request(url, options);
     if (response.ok) {
+      handleSuccess();
       handleClose();
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
     }
-    //}
   }
 
   const handleOptionChange = (e) => {
@@ -81,6 +102,7 @@ const PublicationDelete = ({ id }) => {
               </div>
             </Modal.Body>
           </Modal>
+          <Toaster />
         </div>
       )}
     </>

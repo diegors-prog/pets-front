@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './CreatePublication.module.css';
 import { useNavigate } from 'react-router-dom';
+import { Toaster, toast } from 'react-hot-toast';
 import useForm from '../../Hooks/useForm';
 import useFetch from '../../Hooks/useFetch';
 import { UserContext } from '../../UserContext';
@@ -25,6 +26,17 @@ const CreatePublication = () => {
     };
   }, []);
 
+  const handleSuccess = () => {
+    toast.success('Publicação criada com sucesso', {
+      duration: 3000,
+      style: {
+        background: 'green',
+        color: '#fff',
+        zIndex: 1000
+      },
+    });
+  };
+
   async function handleSubmit(event) {
     try {
       event.preventDefault();
@@ -44,13 +56,16 @@ const CreatePublication = () => {
       const file = FILE_POST(formData, token);
       const url = await request(file.url, file.options);
       if (!url.response.ok) throw new Error(url.json.message);
+      const create = PUBLICATION_POST({ title: title.value, typeOfAnimal: typeOfAnimal.value, description: description.value, image: url.json.data, latitude: latitude, longitude: longitude }, token);
+      const newPublication = await request(create.url, create.options);
+
       if (isMounted.current) {
         setImg({ preview: null, raw: null });
       }
-
-      const create = PUBLICATION_POST({ title: title.value, typeOfAnimal: typeOfAnimal.value, description: description.value, image: url.json.data, latitude: latitude, longitude: longitude }, token);
-      const newPublication = await request(create.url, create.options);
-      navigate('/feed')
+      handleSuccess();
+      setTimeout(() => {
+        navigate('/feed');
+      }, 3000);
     }
     catch (err) {
       setError('O tipo do arquivo deve ser um dos seguintes: image/jpeg, image/png, image/gif.');
@@ -95,6 +110,7 @@ const CreatePublication = () => {
           ></div>
         )}
       </div>
+      <Toaster />
     </section>
   );
 };
