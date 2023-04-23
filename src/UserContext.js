@@ -1,6 +1,7 @@
 import React from 'react';
 import { TOKEN_POST, TOKEN_VALIDATE_POST, USER_GET } from './api';
 import { useNavigate } from 'react-router-dom';
+import { Toaster, toast } from 'react-hot-toast';
 
 export const UserContext = React.createContext();
 
@@ -12,7 +13,31 @@ export const UserStorage = ({ children }) => {
   const [latitude, setLatitude] = React.useState(null);
   const [longitude, setLongitude] = React.useState(null);
   const [errorLocation, setErrorLocation] = React.useState(null);
+  const [notificationPermission, setNotificationPermission] = React.useState(null);
+  //const [errorNotificacionPermission, setErrorNotificacionPermission] = React.useState(null);
   const navigate = useNavigate();
+
+  const handleWaitingForNotificationLoad = (message, background, color) => {
+    if (message === 'Notificações não suportadas pelo seu navegador') {
+      toast.error(message, {
+        duration: 3000,
+        style: {
+          background: background,
+          color: color,
+          zIndex: 1000
+        },
+      });
+    } else {
+      toast.loading(message, {
+        duration: 3000,
+        style: {
+          background: background,
+          color: color,
+          zIndex: 1000
+        },
+      });
+    }
+  };
 
   const userLogout = React.useCallback(
     async function () {
@@ -103,12 +128,50 @@ export const UserStorage = ({ children }) => {
       })
     }
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    console.log("porra");
   }
   getUserLocation();
 
+  const useNotificationPermission = () => {
+  
+    React.useEffect(() => {
+  
+      if (!('Notification' in window)) {
+        handleWaitingForNotificationLoad('Notificações não suportadas pelo seu navegador', '#F21204', '#FFFFFF');
+        setNotificationPermission('unsupported');
+        return;
+      }
+  
+      if (Notification.permission === 'granted') {
+        console.log('Permissão de notificação já concedida.');
+        setNotificationPermission(Notification.permission);
+        return;
+      }
+  
+      if (Notification.permission === 'denied') {
+        setNotificationPermission(Notification.permission);
+        handleWaitingForNotificationLoad('Permissão de notificação foi bloqueada.', '#FED914', '#000000');
+        return;
+      }
+  
+      Notification.requestPermission().then((permission) => {
+        setNotificationPermission(permission);
+      });
+    }, []);
+  };
+  useNotificationPermission();
+
+  const requestNotificationPermission = async () => {
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      setNotificationPermission(permission)
+      console.log('Permissão de notificação concedida');
+    }
+}
+
   return (
     <UserContext.Provider
-      value={{ userLogin, userLogout, getUserLocation, data, error, loading, login, latitude, longitude, errorLocation }}
+      value={{ userLogin, userLogout, getUserLocation, requestNotificationPermission, data, error, loading, login, latitude, longitude, errorLocation, notificationPermission }}
     >
       {children}
     </UserContext.Provider>

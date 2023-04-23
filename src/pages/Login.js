@@ -9,9 +9,10 @@ import styles from './Login.module.css';
 import NotFound from '../components/NotFound/NotFound';
 
 function Login() {
-  const { login, latitude, longitude } = React.useContext(UserContext);
+  const { login, latitude, longitude, notificationPermission } = React.useContext(UserContext);
 
-  if (login === true && latitude && longitude) return <Navigate to="/feed" />;
+  if (login === true && latitude && longitude && notificationPermission === 'granted') return <Navigate to="/feed" />;
+  else if (login === true && latitude && longitude && (!notificationPermission || notificationPermission === 'denied')) return <Navigate to="/feed/notification-permission" />;
   else if (login === true && !latitude && !longitude) return <Navigate to="/feed/location" />;
   else return (
     <section className={styles.login}>

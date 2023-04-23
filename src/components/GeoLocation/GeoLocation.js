@@ -6,7 +6,7 @@ import Button from '../Forms/Button';
 import { ReactComponent as GeoIlustration6 } from '../../Assets/undraw_navigation_re_wxx4.svg';
 
 const GeoLocation = () => {
-	const { login, latitude, longitude, errorLocation, getUserLocation } = React.useContext(UserContext);
+	const { login, latitude, longitude, errorLocation, getUserLocation, notificationPermission } = React.useContext(UserContext);
 	const navigate = useNavigate();
 
 	// const handleMostrarLocalizacao = () => {
@@ -14,11 +14,11 @@ const GeoLocation = () => {
 	// 	getUserLocation();
 	// };
 
-	if (login && latitude && longitude){
+	if (login && latitude && longitude && notificationPermission === 'granted')
 		navigate("/feed")
-	}
-
-	return (
+	else if (login && latitude && longitude && (!notificationPermission || notificationPermission === 'denied'))
+		navigate("/feed/notification-permission");
+	else return (
 		<section className={`${styles.geo} container animeLeft`}>
 			<div className={`${styles.geoContainer}`}>
 				<h2 className='title2'>Geolocalização</h2>
