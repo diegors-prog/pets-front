@@ -82,7 +82,7 @@ export function PUBLICATION_DELETE(id, wasFound) {
   return {
     url: `${API_URL}/Publication/${id}/${wasFound}`,
     options: {
-      method: 'DELETE',
+      method: 'PATCH',
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
@@ -187,6 +187,20 @@ export function CONTACT_MESSAGE(body) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
+export function SUB_DATA_USER_PATCH(body) {
+  return {
+    url: `${API_URL}/User/updateSubDataUser`,
+    options: {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
       body: JSON.stringify(body),
     },

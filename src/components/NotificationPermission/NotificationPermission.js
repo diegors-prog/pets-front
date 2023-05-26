@@ -6,20 +6,40 @@ import Button from '../Forms/Button';
 import { ReactComponent as NotificationIlustration } from '../../Assets/undraw_happy_announcement_re_tsm0.svg';
 
 const NotificationPermission = () => {
-	const { login, latitude, longitude, notificationPermission, requestNotificationPermission } = React.useContext(UserContext);
+	const isMounted = React.useRef(true);
+	const { login, latitude, longitude, notificationPermission, setNotificationPermission } = React.useContext(UserContext);
 	const navigate = useNavigate();
 	console.log(notificationPermission);
-    // React.useEffect(() => {
 
-    // }, []);
-
+	React.useEffect(() => {
+		return () => {
+		  isMounted.current = false; // Atualizar o valor da ref para false quando o componente for desmontado
+		};
+	  }, []);
     
-      
-
-	if (login && latitude && longitude && notificationPermission === 'granted'){
-		navigate("/feed")
+	const requestNotificationPermission = async () => {
+		const permission = await Notification.requestPermission();
+		if (permission === 'granted') {
+		  setNotificationPermission(true)
+		  console.log('Permissão de notificação concedida');
+		}
 	}
 
+	// const userNotPermission = async () => {
+	// 	const permission = await Notification.requestPermission();
+	// 	if (permission === 'granted') {
+	// 	  setNotificationPermission(true)
+	// 	  console.log('Permissão de notificação concedida');
+	// 	}
+	// }
+
+	if (isMounted.current) {
+        setTimeout(() => {
+			if (login && latitude && longitude && notificationPermission){
+				navigate("/feed")
+			}
+		  }, 500);
+    }
 	return (
 		<section className={`${styles.notification} container animeLeft`}>
 			<div className={`${styles.notificationContainer}`}>
@@ -27,7 +47,9 @@ const NotificationPermission = () => {
 				<p>As notificações são necessárias para fornecer recursos específicos.</p>
 				<NotificationIlustration className={styles.imgNotification} />
 				<p>Por favor, habilite as suas notificações nas configurações do seu navegador, e clique no botão abaixo.</p>
-				{<Button onClick={requestNotificationPermission}>Habilitar Notificação</Button>}
+				<div>
+					<Button onClick={requestNotificationPermission}>Habilitar Notificação</Button>
+				</div>
 			</div>
 		</section>
 	);

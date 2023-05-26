@@ -9,16 +9,18 @@ const GeoLocation = () => {
 	const { login, latitude, longitude, errorLocation, getUserLocation, notificationPermission } = React.useContext(UserContext);
 	const navigate = useNavigate();
 
+	React.useEffect(() => {
+		if (login && latitude && longitude && notificationPermission)
+		navigate("/feed")
+	else if (login && latitude && longitude && !notificationPermission)
+		navigate("/feed/notification-permission");
+	  }, [login, latitude, longitude, notificationPermission, navigate]);
+
 	// const handleMostrarLocalizacao = () => {
 	// 	console.log("porra");
 	// 	getUserLocation();
 	// };
-
-	if (login && latitude && longitude && notificationPermission === 'granted')
-		navigate("/feed")
-	else if (login && latitude && longitude && (!notificationPermission || notificationPermission === 'denied'))
-		navigate("/feed/notification-permission");
-	else return (
+	return (
 		<section className={`${styles.geo} container animeLeft`}>
 			<div className={`${styles.geoContainer}`}>
 				<h2 className='title2'>Geolocalização</h2>

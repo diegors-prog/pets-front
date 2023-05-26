@@ -11,10 +11,10 @@ import NotFound from '../components/NotFound/NotFound';
 function Login() {
   const { login, latitude, longitude, notificationPermission } = React.useContext(UserContext);
 
-  if (login === true && latitude && longitude && notificationPermission === 'granted') return <Navigate to="/feed" />;
-  else if (login === true && latitude && longitude && (!notificationPermission || notificationPermission === 'denied')) return <Navigate to="/feed/notification-permission" />;
+  if (login === true && latitude && longitude && notificationPermission) return <Navigate to="/feed" />;
+  else if (login === true && latitude && longitude && !notificationPermission) return <Navigate to="/feed/notification-permission" />;
   else if (login === true && !latitude && !longitude) return <Navigate to="/feed/location" />;
-  else return (
+  return (
     <section className={styles.login}>
       <div className={styles.forms}>
         <Routes>

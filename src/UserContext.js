@@ -2,6 +2,8 @@ import React from 'react';
 import { TOKEN_POST, TOKEN_VALIDATE_POST, USER_GET } from './api';
 import { useNavigate } from 'react-router-dom';
 import { Toaster, toast } from 'react-hot-toast';
+import { messaging } from './firebaseinit';
+import { getToken } from 'firebase/messaging';
 
 export const UserContext = React.createContext();
 
@@ -14,6 +16,7 @@ export const UserStorage = ({ children }) => {
   const [longitude, setLongitude] = React.useState(null);
   const [errorLocation, setErrorLocation] = React.useState(null);
   const [notificationPermission, setNotificationPermission] = React.useState(null);
+  const [deviceTokenFound, setDeviceTokenFound] = React.useState(null);
   //const [errorNotificacionPermission, setErrorNotificacionPermission] = React.useState(null);
   const navigate = useNavigate();
 
@@ -60,6 +63,7 @@ export const UserStorage = ({ children }) => {
     const { data } = await response.json();
     setData(data);
     setLogin(true);
+    getUserLocation();
   }
 
   async function userLogin(email, password) {
@@ -73,11 +77,15 @@ export const UserStorage = ({ children }) => {
       console.log("Token: " + data.token);
       window.localStorage.setItem('token', data.token);
       await getUser(data.token);
-      console.log(latitude, longitude);
-      if (latitude && longitude)
+      requestNotificationPermission();
+      if (latitude && longitude && notificationPermission) {
         navigate('/feed');
+      } else if (!latitude && !longitude)
+        navigate('/feed/location');
+      else if (latitude && longitude && !notificationPermission)
+        navigate('/feed/notification');
       else
-      navigate('/feed/location');
+        navigate('/login');
     } catch (err) {
       setError(err.message);
       setLogin(false);
@@ -98,6 +106,15 @@ export const UserStorage = ({ children }) => {
           if (!response.ok) throw new Error('Token inválido');
           const { data } = await response.json();
           await getUser(data.token);
+          requestNotificationPermission();
+          if (latitude && longitude && notificationPermission)
+            navigate('/feed');
+          else if (!latitude && !longitude)
+            navigate('/feed/location');
+          else if (latitude && longitude && !notificationPermission)
+            navigate('/feed/notification-permission');
+          else
+            navigate('/login');
         } catch (err) {
           userLogout();
         } finally {
@@ -130,7 +147,6 @@ export const UserStorage = ({ children }) => {
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
     console.log("porra");
   }
-  getUserLocation();
 
   const useNotificationPermission = () => {
   
@@ -144,18 +160,18 @@ export const UserStorage = ({ children }) => {
   
       if (Notification.permission === 'granted') {
         console.log('Permissão de notificação já concedida.');
-        setNotificationPermission(Notification.permission);
+        setNotificationPermission(true);
         return;
       }
   
       if (Notification.permission === 'denied') {
-        setNotificationPermission(Notification.permission);
+        setNotificationPermission(false);
         handleWaitingForNotificationLoad('Permissão de notificação foi bloqueada.', '#FED914', '#000000');
         return;
       }
   
       Notification.requestPermission().then((permission) => {
-        setNotificationPermission(permission);
+        setNotificationPermission(true);
       });
     }, []);
   };
@@ -164,14 +180,32 @@ export const UserStorage = ({ children }) => {
   const requestNotificationPermission = async () => {
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
-      setNotificationPermission(permission)
+      setNotificationPermission(true)
       console.log('Permissão de notificação concedida');
     }
-}
+    else
+      setNotificationPermission(false);
+  }
+
+  const getDeviceToken = async () => {
+    let currentToken = '';
+
+    try {
+      currentToken = await getToken(messaging, { vapidKey: "BD02l29yHcmSTektwgLaszxqn7XFiPnBN1D8j21IKmVbaHEmwaxn1oIcsdybfaJeSnG9wISCTwkWNGExLIovHPM" });
+      if (currentToken !== '')
+        setDeviceTokenFound(true);
+      else
+        setDeviceTokenFound(false);
+    } catch (error) {
+      console.log('Aconteceu algum erro ao requisitar o token. ', error);
+    }
+
+    return currentToken;
+  }
 
   return (
     <UserContext.Provider
-      value={{ userLogin, userLogout, getUserLocation, requestNotificationPermission, data, error, loading, login, latitude, longitude, errorLocation, notificationPermission }}
+      value={{ userLogin, userLogout, getUserLocation, setNotificationPermission, getDeviceToken, data, error, loading, login, latitude, longitude, errorLocation, notificationPermission, deviceTokenFound }}
     >
       {children}
     </UserContext.Provider>
