@@ -206,3 +206,39 @@ export function SUB_DATA_USER_PATCH(body) {
     },
   };
 }
+
+export function MY_PUBLICATIONS_GET() {
+  return {
+    url: `${API_URL}/Publication/GetAllPerUser`,
+    options: {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+    },
+  };
+}
+
+export function PUBLICATIONS_PER_PUBLICATION_VIEWS_GET() {
+  return {
+    url: `${API_URL}/Publication/GetAllPerPublicationViews`,
+    options: {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+    },
+  };
+}
+
+export function PUBLICATION_DETAILS_GET(id) {
+  return {
+    url: `${API_URL}/Publication/publicationDetails/${id}`,
+    options: {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+    },
+  };
+}

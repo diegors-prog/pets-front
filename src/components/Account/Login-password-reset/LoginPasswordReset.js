@@ -6,6 +6,7 @@ import Button from '../../Forms/Button';
 import Input from '../../Forms/Input';
 import { PASSWORD_RESET } from '../../../api';
 import Error from '../../Errors/Error';
+import { Toaster, toast } from 'react-hot-toast';
 
 const LoginPasswordReset = () => {
   const [login, setLogin] = React.useState('');
@@ -20,16 +21,27 @@ const LoginPasswordReset = () => {
     if (key) setKey(key);
   }, []);
 
+  const handleLoading = () => {
+		toast.loading('Formulário inválido', {
+		  duration: 3000,
+		  style: {
+			background: '#FED914',
+			color: '#000000',
+			zIndex: 1000
+		  },
+		});
+	};
+
   async function handleSubmit(event) {
     event.preventDefault();
-    if (password.validate) {
-      const { url, options } = PASSWORD_RESET({
-        key,
-        password: password.value,
-      });
-      const { response } = await request(url, options);
-      if (response.ok) navigate('/login');
-    }
+    if (!password.validate()) return handleLoading();
+      
+    const { url, options } = PASSWORD_RESET({
+      key,
+      password: password.value,
+    });
+    const { response } = await request(url, options);
+    if (response.ok) navigate('/login');
   }
 
   return (
@@ -49,6 +61,7 @@ const LoginPasswordReset = () => {
         )}
       </form>
       <Error error={error} />
+      <Toaster />
     </section>
   );
 };

@@ -12,6 +12,7 @@ const PublicationDelete = ({ id }) => {
   const { loading, request } = useFetch();
   const [show, setShow] = React.useState(false);
   const [option, setOption] = React.useState(true);
+  console.log(id);
 
   React.useEffect(() => {
     return () => {
@@ -72,7 +73,7 @@ const PublicationDelete = ({ id }) => {
             onHide={handleClose}
           >
             <Modal.Header closeButton className={styles.modalHeader}>
-              <Modal.Title>Deletar Publicação</Modal.Title>
+              <Modal.Title>Excluir Publicação</Modal.Title>
             </Modal.Header>
             <Modal.Body className={styles.modalBody}>
               <div className={`${styles.deleteBody} animeLeft`}>
@@ -84,7 +85,7 @@ const PublicationDelete = ({ id }) => {
                     checked={option === true} // Define o radio button como selecionado se o estado for true
                     onChange={handleOptionChange} // Função de callback para lidar com a mudança de valor
                   />
-                  Foi Encontrado
+                   Foi Encontrado
                 </label>
                 <label>
                   <input
@@ -93,10 +94,10 @@ const PublicationDelete = ({ id }) => {
                     checked={option === false} // Define o radio button como selecionado se o estado for false
                     onChange={handleOptionChange} // Função de callback para lidar com a mudança de valor
                   />
-                  Não Foi Encontrado
+                   Não Foi Encontrado
                 </label>
                 <div className={`${styles.buttons}`}>
-                  <Button variant="primary" onClick={handleClick}>Deletar</Button>
+                  <Button variant="primary" onClick={handleClick}>Excluir</Button>
                   <Button onClick={handleClose}>Cancelar</Button>
                 </div>
               </div>

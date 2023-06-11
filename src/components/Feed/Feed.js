@@ -11,7 +11,7 @@ import { ReactComponent as Illustration } from '../../Assets/Illustration.svg';
 
 const Feed = () => {
   const { data, loading, error, request, setLoading } = useFetch();
-  const { latitude, longitude, deviceTokenFound, getDeviceToken, getUserLocation } = React.useContext(UserContext);
+  const { latitude, longitude, getDeviceToken, setLatitude, setLongitude } = React.useContext(UserContext);
 
   const [mounted, setMounted] = React.useState(true);
 
@@ -24,33 +24,53 @@ const Feed = () => {
     }
     fetchPublications();
 
-    async function fetchSubDataUser() {
-      if (!latitude && !longitude)
-        getUserLocation();
-
-      const deviceToken = await getDeviceToken();
-      console.log({ deviceToken: deviceToken });
-      if (deviceToken && latitude && longitude) {
-        const { url, options } = SUB_DATA_USER_PATCH({ latitude: latitude, longitude: longitude, deviceToken: deviceToken });
-        const patchRes = await fetch(url, options);
-        if (!patchRes.ok) throw new Error(`Error: ${patchRes.statusText}`);
+    const getUserLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            setLatitude(position.coords.latitude);
+            setLongitude(position.coords.longitude);
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      } else {
+        console.log('Geolocation is not supported by this browser.');
       }
-    }
-    fetchSubDataUser();
+    };
+
+    // let isSubDataUserFetched = false;
+
+    // async function fetchSubDataUser() {
+    //   const deviceToken = await getDeviceToken();
+    //   console.log({ deviceToken: deviceToken });
+    //   if (deviceToken && latitude && longitude) {
+    //     const { url, options } = SUB_DATA_USER_PATCH({ latitude: latitude, longitude: longitude, deviceToken: deviceToken });
+    //     const patchRes = await fetch(url, options);
+    //     if (!patchRes.ok) throw new Error(`Error: ${patchRes.statusText}`);
+    //   }
+    // }
+
+    // if (!isSubDataUserFetched && latitude && longitude) {
+    //   fetchSubDataUser();
+    //   isSubDataUserFetched = true;
+    // }
 
     return () => {
       setMounted(false);
     };
-  }, [request, latitude, longitude, mounted, setLoading, getDeviceToken, getUserLocation]);
+  }, [request, latitude, longitude, mounted, setLoading, getDeviceToken, setLatitude, setLongitude]);
 
   if (error) return <Error error={error} />;
   if (loading) return <Loading />;
   if (data && data.length > 0) {
     return (
       <section className={`${styles.feed} container animeLeft`}>
-        {data.map((publication) => (
-          <PublicationsFeed key={publication.id} publication={publication} />
-        ))}
+        {data.map((publication) => {
+          console.log(publication.id);
+          return <PublicationsFeed key={publication.id} publication={publication} />
+  })}
       </section>
     );
   } else {

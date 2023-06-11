@@ -16,6 +16,7 @@ const CreatePublication = () => {
   const typeOfAnimal = useForm();
   const description = useForm();
   const [image, setImg] = React.useState({ preview: null, raw: null });
+  const [formValid, setFormValid] = React.useState(false);
   const { data, error, loading, request, setError, setLoading } = useFetch();
   const { latitude, longitude } = React.useContext(UserContext);
   const navigate = useNavigate();
@@ -25,6 +26,14 @@ const CreatePublication = () => {
       isMounted.current = false; // Atualizar o valor da ref para false quando o componente for desmontado
     };
   }, []);
+
+  function validateForm() {
+		if (title.validate() && typeOfAnimal.validate() && description.validate()) {
+		  setFormValid(true);
+		} else {
+		  setFormValid(false);
+		}
+	}
 
   const handleSuccess = () => {
     toast.success('Publicação criada com sucesso', {
@@ -37,9 +46,22 @@ const CreatePublication = () => {
     });
   };
 
+  const handleLoading = () => {
+		toast.loading('Formulário inválido', {
+		  duration: 3000,
+		  style: {
+			background: '#FED914',
+			color: '#000000',
+			zIndex: 1000
+		  },
+		});
+	};
+
   async function handleSubmit(event) {
     try {
       event.preventDefault();
+      console.log(image);
+      if (!formValid) return handleLoading();
       const formData = new FormData();
       // formData.append('title', title.value);
       // formData.append('typeOfAnimal', typeOfAnimal.value);
@@ -79,6 +101,7 @@ const CreatePublication = () => {
       preview: URL.createObjectURL(target.files[0]),
       raw: target.files[0],
     });
+    validateForm();
   }
 
   return (
@@ -98,7 +121,7 @@ const CreatePublication = () => {
         {loading ? (
           <Button disabled>Enviando...</Button>
         ) : (
-          <Button>Enviar</Button>
+          <Button disabled={!formValid}>Enviar</Button>
         )}
         <Error error={error} />
       </form>

@@ -63,7 +63,7 @@ export const UserStorage = ({ children }) => {
     const { data } = await response.json();
     setData(data);
     setLogin(true);
-    getUserLocation();
+    //getUserLocation();
   }
 
   async function userLogin(email, password) {
@@ -106,7 +106,7 @@ export const UserStorage = ({ children }) => {
           if (!response.ok) throw new Error('Token inválido');
           const { data } = await response.json();
           await getUser(data.token);
-          requestNotificationPermission();
+          if (!notificationPermission) await requestNotificationPermission();
           if (latitude && longitude && notificationPermission)
             navigate('/feed');
           else if (!latitude && !longitude)
@@ -125,57 +125,81 @@ export const UserStorage = ({ children }) => {
       }
     }
     autoLogin();
-  }, [userLogout]);
 
-  const getUserLocation = () => {
-
-    const onSuccess = (location) => {
-      setLatitude(location.coords.latitude);
-      setLongitude(location.coords.longitude);
-    }
-
-    const onError = error => {
-      setErrorLocation(error);
-    }
-
-    if (!("geolocation" in navigator)) {
-      onError({
-        code: 0,
-        message: 'Geolocalização não suportada.',
-      })
-    }
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
-    console.log("porra");
-  }
-
-  const useNotificationPermission = () => {
-  
-    React.useEffect(() => {
-  
-      if (!('Notification' in window)) {
-        handleWaitingForNotificationLoad('Notificações não suportadas pelo seu navegador', '#F21204', '#FFFFFF');
-        setNotificationPermission('unsupported');
-        return;
+    const getUserLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            setLatitude(position.coords.latitude);
+            setLongitude(position.coords.longitude);
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      } else {
+        console.log('Geolocation is not supported by this browser.');
       }
+    };
+
+    getUserLocation(); // Chamada da função ao montar o componente
+
+    // Cleanup da função de efeito
+    return () => {
+      // Faça algo se necessário ao desmontar o componente
+    };
+  }, [userLogout, latitude, longitude, navigate, notificationPermission]);
+
+  // const getUserLocation = () => {
+
+  //   const onSuccess = (location) => {
+  //     console.log({long: location.coords.longitude, lat: location.coords.latitude});
+  //     setLatitude(location.coords.latitude);
+  //     setLongitude(location.coords.longitude);
+  //   }
+
+  //   const onError = error => {
+  //     setErrorLocation(error);
+  //   }
+
+  //   if (!("geolocation" in navigator)) {
+  //     onError({
+  //       code: 0,
+  //       message: 'Geolocalização não suportada.',
+  //     })
+  //   }
+  //   navigator.geolocation.getCurrentPosition(onSuccess, onError);
+  //   console.log({lat: latitude, long: longitude});
+  // }
+
+  // const useNotificationPermission = () => {
   
-      if (Notification.permission === 'granted') {
-        console.log('Permissão de notificação já concedida.');
-        setNotificationPermission(true);
-        return;
-      }
+  //   React.useEffect(() => {
   
-      if (Notification.permission === 'denied') {
-        setNotificationPermission(false);
-        handleWaitingForNotificationLoad('Permissão de notificação foi bloqueada.', '#FED914', '#000000');
-        return;
-      }
+  //     if (!('Notification' in window)) {
+  //       handleWaitingForNotificationLoad('Notificações não suportadas pelo seu navegador', '#F21204', '#FFFFFF');
+  //       setNotificationPermission('unsupported');
+  //       return;
+  //     }
   
-      Notification.requestPermission().then((permission) => {
-        setNotificationPermission(true);
-      });
-    }, []);
-  };
-  useNotificationPermission();
+  //     if (Notification.permission === 'granted') {
+  //       console.log('Permissão de notificação já concedida.');
+  //       setNotificationPermission(true);
+  //       return;
+  //     }
+  
+  //     if (Notification.permission === 'denied') {
+  //       setNotificationPermission(false);
+  //       handleWaitingForNotificationLoad('Permissão de notificação foi bloqueada.', '#FED914', '#000000');
+  //       return;
+  //     }
+  
+  //     Notification.requestPermission().then((permission) => {
+  //       setNotificationPermission(true);
+  //     });
+  //   }, []);
+  // };
+  // useNotificationPermission();
 
   const requestNotificationPermission = async () => {
     const permission = await Notification.requestPermission();
@@ -205,7 +229,7 @@ export const UserStorage = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ userLogin, userLogout, getUserLocation, setNotificationPermission, getDeviceToken, data, error, loading, login, latitude, longitude, errorLocation, notificationPermission, deviceTokenFound }}
+      value={{ userLogin, userLogout, setNotificationPermission, getDeviceToken, setLatitude, setLongitude, data, error, loading, login, latitude, longitude, errorLocation, notificationPermission, deviceTokenFound }}
     >
       {children}
     </UserContext.Provider>

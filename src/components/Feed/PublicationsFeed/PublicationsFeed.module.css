@@ -2,7 +2,7 @@
   background: #fff;
   margin: 15px 10px;
   border-radius: 10px;
-  padding: 5px 0px;
+  padding: 5px 0px 0px 0px;
   box-shadow: 0 10px 25px rgba(92, 99, 105, 0.2);
 }
 
@@ -36,9 +36,15 @@
 
 .profile p {
   margin-left: 5px;
+  font-size: 14px;
   font-weight: bold;
   font-family: var(--type-second);
   margin-bottom: 0px !important;
+}
+
+.creationDate {
+  font-size: 10px;
+  margin-left: 10px;
 }
 
 .img {
@@ -47,11 +53,12 @@
 
 .description {
   padding: 0 5px;
+  margin-bottom: 3px;
 }
 
 .description h2 {
   margin-top: 5px;
-  font-size: 30px;
+  font-size: 24px;
   font-family: var(--type-second);
 }
 
@@ -73,9 +80,8 @@
 }
 
 .icons {
-  margin-top: 10px;
-  margin-right: 20px;
-  width: 50%;
+  margin-top: 5px;
+  width: 42%;
   display: flex;
   justify-content: space-around;
 }
@@ -85,7 +91,7 @@
   border: none !important;
   border-radius: 50% !important;
   box-shadow: 5px 5px 15px 0px rgba(44, 44, 44, 0.35) !important;
-  width: 50px;
+  
   transition: 0.5s ease !important;
   opacity: 0.6 !important;
 }
@@ -95,8 +101,7 @@
   box-shadow: 0 0 0 3px #fea, 0 0 0 4px #fb1 !important;
   color: #764701 !important;
   border: 2px solid #fb1 !important;*/
-  border: none !important;
-  box-shadow: inset 0 0 0 2px #fb1 !important;
+
   /*transition: 0.5s ease !important;*/
   opacity: 1 !important;
 }

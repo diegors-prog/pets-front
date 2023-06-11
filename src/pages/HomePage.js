@@ -15,9 +15,10 @@ import { ReactComponent as HomeIlustration3 } from '../Assets/undraw_mobile_feed
 import { ReactComponent as HomeIlustration4 } from '../Assets/undraw_message_sent_re_q2kl.svg';
 import { ReactComponent as HomeIlustration5 } from '../Assets/undraw_mailbox_re_dvds.svg';
 import { ReactComponent as HomeIlustration6 } from '../Assets/origamid-lobo.svg';
-import balta from '../Assets/balta.png'
-import desenvolvedorIO from '../Assets/desenvolvedor-io.jpg'
-import linkedin from '../Assets/linkedin.png'
+import balta from '../Assets/balta.png';
+import desenvolvedorIO from '../Assets/desenvolvedor-io.jpg';
+import linkedin from '../Assets/linkedin.png';
+import { Toaster, toast } from 'react-hot-toast';
 
 
 
@@ -25,15 +26,34 @@ const HomePage = () => {
 	const email = useForm('email');
   	const assunto = useForm();
 	const [corpoEmail, setCorpoEmail] = React.useState('');
+	const [formValid, setFormValid] = React.useState(false);
+	const { data, request, error } = useFetch();
+
+	const navigate = useNavigate();
+	const { login, loading, latitude, longitude } = React.useContext(UserContext)
+
+	function validateForm() {
+		if (email.validate() && assunto.validate() && corpoEmail !== '') {
+		  setFormValid(true);
+		} else {
+		  setFormValid(false);
+		}
+	}
 
 	function editMessage(email, corpoEmail) {
 		return `De: ${email.value}\n\n${corpoEmail}`;
 	}
 
-	const { data, request, error } = useFetch();
-
-	const navigate = useNavigate();
-	const { login, loading, latitude, longitude } = React.useContext(UserContext)
+	const handleLoading = () => {
+		toast.loading('Campo mensagem vazio', {
+		  duration: 3000,
+		  style: {
+			background: '#FED914',
+			color: '#000000',
+			zIndex: 1000
+		  },
+		});
+	};
 
 	React.useEffect(() => {
 		if (login && latitude && longitude) navigate('/feed');
@@ -43,6 +63,8 @@ const HomePage = () => {
 
 	async function handleSubmit(event) {
 		event.preventDefault();
+		if (!formValid && corpoEmail === '') return handleLoading();
+		
 		const { url, options } = CONTACT_MESSAGE({ subject: assunto.value, emailBody: editMessage(email, corpoEmail) });
     	const { response, json } = await request(url, options);
 		if (!response.ok) throw new Error(json.message);
@@ -50,6 +72,7 @@ const HomePage = () => {
 			email.setValue('');
 			assunto.setValue('');
 			setCorpoEmail('');
+			setFormValid(false);
 		}
 	}
 	
@@ -89,13 +112,14 @@ const HomePage = () => {
 							value={corpoEmail}
 							onChange={({ target }) => {
 								setCorpoEmail(target.value);
+								validateForm();
 							}}
 						/>
 					</div>
 					{loading ? (
 					<Button disabled>Carregando...</Button>
 					) : (
-					<Button>Enviar</Button>
+					<Button disabled={!formValid}>Enviar</Button>
 					)}
 					<p>{data && data}</p>
 					<Error error={error && 'Dados incorretos.'} />
@@ -125,6 +149,7 @@ const HomePage = () => {
 					</ul>
 				</div>
 			</footer>
+			<Toaster />
 		</div>
 	);
 }

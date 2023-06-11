@@ -25,21 +25,17 @@ const NotificationPermission = () => {
 		}
 	}
 
-	// const userNotPermission = async () => {
-	// 	const permission = await Notification.requestPermission();
-	// 	if (permission === 'granted') {
-	// 	  setNotificationPermission(true)
-	// 	  console.log('Permissão de notificação concedida');
+	// React.useEffect(() => {
+	// 	if (login && latitude && longitude && notificationPermission) {
+	// 	  const timeout = setTimeout(() => {
+	// 		navigate("/feed");
+	// 	  }, 500);
+	
+	// 	  return () => {
+	// 		clearTimeout(timeout); // Limpar o timeout se o componente for desmontado antes de disparar
+	// 	  };
 	// 	}
-	// }
-
-	if (isMounted.current) {
-        setTimeout(() => {
-			if (login && latitude && longitude && notificationPermission){
-				navigate("/feed")
-			}
-		  }, 500);
-    }
+	//   }, [login, latitude, longitude, notificationPermission, navigate]);
 	return (
 		<section className={`${styles.notification} container animeLeft`}>
 			<div className={`${styles.notificationContainer}`}>
