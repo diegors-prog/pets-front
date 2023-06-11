@@ -1,3 +1,7 @@
+.profile {
+  margin-bottom: 45px;
+}
+
 .top {
   background: #fff;
   border-bottom: 2px solid #fb1;
@@ -26,4 +30,35 @@
 .title {
   text-align: center;
   margin-top: 40px;
+}
+
+.tabs {
+  display: flex;
+  margin-top: 20px;
+}
+
+.tabs button {
+  flex: 1;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  transition: border-bottom-color 0.3s ease;
+}
+
+.tabs button.active {
+  border-bottom-color: #262626;
+}
+
+.gridPosts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.gridPosts .imgItem {
+  margin: 0;
+  padding: 0;
 }

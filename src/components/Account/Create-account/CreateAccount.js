@@ -6,6 +6,7 @@ import useForm from '../../../Hooks/useForm';
 import { UserContext } from '../../../UserContext';
 import Button from '../../Forms/Button';
 import Input from '../../Forms/Input';
+import { Toaster, toast } from 'react-hot-toast';
 
 const CreateAccount = () => {
   const username = useForm();
@@ -15,15 +16,30 @@ const CreateAccount = () => {
   const { userLogin } = React.useContext(UserContext);
   const { loading, error, request } = useFetch();
 
+  const handleLoading = () => {
+    toast.loading('Todos os campos devem estar preenchidos', {
+      duration: 3000,
+      style: {
+        background: '#FED914',
+        color: '#000000',
+        zIndex: 1000
+      },
+    });
+  };
+
   async function handleSubmit(event) {
     event.preventDefault();
-    const { url, options } = USER_POST({
-      email: email.value,
-      password: password.value,
-      name: username.value,
-    });
-    const { response } = await request(url, options);
-    if (response.ok) userLogin(email.value, password.value);
+    if (username.validate() && email.validate() && password.validate()) {
+      const { url, options } = USER_POST({
+        email: email.value,
+        password: password.value,
+        name: username.value,
+      });
+      const { response } = await request(url, options);
+      if (response.ok) userLogin(email.value, password.value);
+    } else {
+      handleLoading();
+    }
   }
 
   return (
@@ -40,6 +56,7 @@ const CreateAccount = () => {
         )}
         <Error error={error} />
       </form>
+      <Toaster />
     </section>
   );
 };

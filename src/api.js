@@ -78,11 +78,11 @@ export function FILE_POST(formData, token) {
   };
 }
 
-export function PUBLICATION_DELETE(id) {
+export function PUBLICATION_DELETE(id, wasFound) {
   return {
-    url: `${API_URL}/Publication/${id}`,
+    url: `${API_URL}/Publication/${id}/${wasFound}`,
     options: {
-      method: 'DELETE',
+      method: 'PATCH',
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
@@ -129,7 +129,6 @@ export function COMMENT_POST(body) {
 }
 
 export function COMMENTS_GET(publicationId) {
-  console.log({ id: publicationId});
   return {
     url: `${API_URL}/comment/${publicationId}`,
     options: {
@@ -190,6 +189,56 @@ export function CONTACT_MESSAGE(body) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
+    },
+  };
+}
+
+export function SUB_DATA_USER_PATCH(body) {
+  return {
+    url: `${API_URL}/User/updateSubDataUser`,
+    options: {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
+export function MY_PUBLICATIONS_GET() {
+  return {
+    url: `${API_URL}/Publication/GetAllPerUser`,
+    options: {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+    },
+  };
+}
+
+export function PUBLICATIONS_PER_PUBLICATION_VIEWS_GET() {
+  return {
+    url: `${API_URL}/Publication/GetAllPerPublicationViews`,
+    options: {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+    },
+  };
+}
+
+export function PUBLICATION_DETAILS_GET(id) {
+  return {
+    url: `${API_URL}/Publication/publicationDetails/${id}`,
+    options: {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
     },
   };
 }

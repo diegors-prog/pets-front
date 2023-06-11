@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
 import Header from './components/Header';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Footer from './components/Footer';
@@ -24,6 +25,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
+          <Toaster />
         </UserStorage>
       </BrowserRouter>
     </div>
