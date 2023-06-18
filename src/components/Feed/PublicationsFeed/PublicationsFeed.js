@@ -16,6 +16,7 @@ const PublicationsFeed = ({ publication }) => {
   const { data, error, loading, request } = useFetch();
   const [comments, setComments] = React.useState(null);
   const [publicationViews, setPublicationsViews] = React.useState(null);
+  const [showFullDescription, setShowFullDescription] = React.useState(true);
   const [objetoExiste, setObjetoExiste] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const handleClose = () => {
@@ -112,6 +113,10 @@ const PublicationsFeed = ({ publication }) => {
     return `${dia}/${mes}/${ano} as ${horas}h${minutos}`;
   }
 
+  function handleDescriptionPlus() {
+    setShowFullDescription(!showFullDescription);
+  }
+
   if (data)
     return (
       <div className={styles.publication}>
@@ -132,7 +137,7 @@ const PublicationsFeed = ({ publication }) => {
         <div>
           <img src={data.image} className={styles.img} alt="imagem html" />
         </div>
-        <div className={styles.description}>
+        <div className={styles.descriptionCard}>
           <div className={styles.viewComment}>
             <h2>{data.title}</h2>
             <div className={styles.icons}>
@@ -172,9 +177,12 @@ const PublicationsFeed = ({ publication }) => {
                 </Modal.Body>
               </Modal>
             </div>
-          </div>
+          </div>        
           <span>{data.typeOfAnimal}</span>
-          <p>{data.description}</p>
+          <p className={styles.description}>
+            {!showFullDescription || data.description.length < 79 ? data.description : data.description.substring(0, 79) + '...'}
+          </p>
+          {data.description.length >= 79 && <button onClick={handleDescriptionPlus} className={styles.mais}>{!showFullDescription ? 'menos' : 'mais'}</button>}
         </div>
       </div>
     );

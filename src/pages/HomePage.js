@@ -128,7 +128,7 @@ const HomePage = () => {
 			<footer className={`${styles.homePageContainer}`} id={`${styles.howItWork}`}>
 				<div>
 					<h4>Agradecimentos</h4>
-					<ul>
+					<ul className={`${styles.list}`}>
 						<li><img className={`${styles.balta}`} src={linkedin} alt='imagem html' /><a href='https://www.linkedin.com/in/cassiocosta/' target='_blank' rel="noreferrer">Cássio Huggentobler de Costa</a></li>
 						<li><img className={`${styles.balta}`} src={linkedin} alt='imagem html' /><a href='https://www.linkedin.com/in/vinimagnus/' target='_blank' rel="noreferrer">Vínicios Magnus</a></li>
 						<li><img className={`${styles.balta}`} src={linkedin} alt='imagem html' /><a href='https://www.linkedin.com/in/ramonsl/' target='_blank' rel="noreferrer">Ramon Lummertz</a></li>
@@ -141,7 +141,7 @@ const HomePage = () => {
 				</div>
 				<div>
 					<h4>Plataformas</h4>
-					<ul>
+					<ul className={`${styles.list}`}>
 						<li><HomeIlustration6 /><a href='https://www.origamid.com/' target='_blank' rel="noreferrer">Origamid</a></li>
 						<li><img className={`${styles.balta}`} src={balta} alt='imagem html' /><a href='https://balta.io/' target='_blank' rel="noreferrer">Balta</a></li>
 						<li><img className={`${styles.balta}`} src={desenvolvedorIO} alt='imagem html' /><a href='https://desenvolvedor.io/inicio' target='_blank' rel="noreferrer">Desenvolvedor IO</a></li>

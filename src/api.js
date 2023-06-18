@@ -1,4 +1,4 @@
-const API_URL = 'https://localhost:44330/api';
+const API_URL = 'https://petfinder360-api-production.up.railway.app/api';
 
 export function TOKEN_POST(body) {
   return {

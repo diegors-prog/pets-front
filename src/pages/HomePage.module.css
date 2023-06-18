@@ -92,6 +92,18 @@
   display: inline-block;
 }
 
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list li {
+  font-size: 14px;
+  display: flex; /* Aplica o modelo de layout flexível */
+  align-items: center; /* Alinha verticalmente os elementos */
+}
+
 @media (max-width: 38rem) {
     .homePageContainer {
       display: grid;

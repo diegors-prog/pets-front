@@ -9,6 +9,9 @@ import Input from '../Forms/Input';
 import Button from '../Forms/Button';
 import { PUBLICATION_POST, FILE_POST } from '../../api';
 import Error from '../Errors/Error';
+import { storage } from '../../firebaseinit'
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { v4 } from 'uuid';
 
 const CreatePublication = () => {
   const isMounted = React.useRef(true); // Criar uma ref para controlar a montagem do componente
@@ -57,29 +60,50 @@ const CreatePublication = () => {
 		});
 	};
 
+  function uploadImage(image) {
+    return new Promise((resolve, reject) => {
+      const path = `${v4() + image.name}`;
+      const imageRef = ref(storage, `images/${path}`);
+      const uploadTask = uploadBytesResumable(imageRef, image);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progresso = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          console.log(progresso);
+        },
+        (error) => {
+          console.log(error);
+          reject(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref)
+            .then(url => {
+              console.log("URL atual:" + url);
+              resolve(url);
+            })
+            .catch(error => {
+              console.log(error);
+              reject(error);
+            });
+        }
+      );
+    });
+  }
+
   async function handleSubmit(event) {
     try {
       event.preventDefault();
-      console.log(image);
       if (!formValid) return handleLoading();
-      const formData = new FormData();
-      // formData.append('title', title.value);
-      // formData.append('typeOfAnimal', typeOfAnimal.value);
-      // formData.append('description', description.value);
-      formData.append('image', image.raw);
-      // formData.append('latitude', new Blob([latitude]));
-      // formData.append('longitude', new Blob([longitude]));
-
-      for (var key of formData.entries()) {
-        console.log(key[0] + ', ' + key[1]);
-      }
 
       const token = window.localStorage.getItem('token');
-      const file = FILE_POST(formData, token);
-      const url = await request(file.url, file.options);
-      if (!url.response.ok) throw new Error(url.json.message);
-      const create = PUBLICATION_POST({ title: title.value, typeOfAnimal: typeOfAnimal.value, description: description.value, image: url.json.data, latitude: latitude, longitude: longitude }, token);
-      const newPublication = await request(create.url, create.options);
+      const uploadedUrl = await uploadImage(image.raw);
+      console.log(uploadedUrl);
+      if (uploadedUrl) {
+        const create = PUBLICATION_POST({ title: title.value, typeOfAnimal: typeOfAnimal.value, description: description.value, image: uploadedUrl, latitude: latitude, longitude: longitude }, token);
+        const newPublication = await request(create.url, create.options);
+      }
 
       if (isMounted.current) {
         setImg({ preview: null, raw: null });
