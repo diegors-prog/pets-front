@@ -1,0 +1,53 @@
+.delete {
+    background: #ddd;
+    padding: 0.2rem 0.5rem;
+    line-height: 1;
+    border: 1px solid transparent;
+    font-size: 0.875rem;
+    font-family: var(--type-first);
+    cursor: pointer;
+    border-radius: 50%;
+    transition: 0.1s;
+    margin-right: 5px;
+  }
+  
+  .delete:focus,
+  .delete:hover {
+    outline: none;
+    background: white;
+    box-shadow: 0 0 0 3px #eee;
+    border-color: #333;
+  }
+  
+  /* .customModal {
+    width: 280px !important;
+  } */
+  
+  /* .modalHeader {
+    position: fixed !important;
+    background-color: #fff !important;
+    z-index: 1000;
+    width: 250px;
+  } */
+  
+  .modalBody {
+    /* margin-top: 65px;
+    width: 250px; */
+    height: 250px;
+  }
+  
+  .deleteBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 95%;
+  }
+  
+  .deleteBody label {
+    display: flex;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: space-around;
+  }

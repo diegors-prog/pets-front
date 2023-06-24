@@ -1,4 +1,4 @@
-export const API_URL = 'https://localhost:44330/api';
+const API_URL = 'https://petfinder360-api-production.up.railway.app/api';
 
 export function TOKEN_POST(body) {
   return {
@@ -51,9 +51,23 @@ export function USER_POST(body) {
   };
 }
 
-export function PUBLICATION_POST(formData, token) {
+export function PUBLICATION_POST(body, token) {
   return {
     url: API_URL + '/Publication',
+    options: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
+export function FILE_POST(formData, token) {
+  return {
+    url: API_URL + '/Publication/uploadFile',
     options: {
       method: 'POST',
       headers: {
@@ -64,11 +78,11 @@ export function PUBLICATION_POST(formData, token) {
   };
 }
 
-export function PUBLICATION_DELETE(id) {
+export function PUBLICATION_DELETE(id, wasFound) {
   return {
-    url: `${API_URL}/Publication/${id}`,
+    url: `${API_URL}/Publication/${id}/${wasFound}`,
     options: {
-      method: 'DELETE',
+      method: 'PATCH',
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },
@@ -76,9 +90,9 @@ export function PUBLICATION_DELETE(id) {
   };
 }
 
-export function PUBLICATIONS_GET() {
+export function PUBLICATIONS_GET(latitude, longitude) {
   return {
-    url: API_URL + '/Publication',
+    url: `${API_URL}/Publication/${latitude}/${longitude}`,
     options: {
       method: 'GET',
       headers: {
@@ -114,9 +128,35 @@ export function COMMENT_POST(body) {
   };
 }
 
+export function COMMENTS_GET(publicationId) {
+  return {
+    url: `${API_URL}/comment/${publicationId}`,
+    options: {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+    },
+  };
+}
+
+export function PUBLICATION_VIEWS_POST(body) {
+  return {
+    url: `${API_URL}/PublicationViews`,
+    options: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
 export function PASSWORD_LOST(body) {
   return {
-    url: API_URL + '/api/password/lost',
+    url: API_URL + '/User/sendEmail',
     options: {
       method: 'POST',
       headers: {
@@ -129,13 +169,88 @@ export function PASSWORD_LOST(body) {
 
 export function PASSWORD_RESET(body) {
   return {
-    url: API_URL + '/api/password/reset',
+    url: API_URL + '/User/resetPassword',
     options: {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
+    },
+  };
+}
+
+export function CONTACT_MESSAGE(body) {
+  return {
+    url: API_URL + '/User/sendEmailContact',
+    options: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
+export function SUB_DATA_USER_PATCH(body) {
+  return {
+    url: `${API_URL}/User/updateSubDataUser`,
+    options: {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+      body: JSON.stringify(body),
+    },
+  };
+}
+
+export function MY_PUBLICATIONS_GET() {
+  return {
+    url: `${API_URL}/Publication/GetAllPerUser`,
+    options: {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+    },
+  };
+}
+
+export function PUBLICATIONS_PER_PUBLICATION_VIEWS_GET() {
+  return {
+    url: `${API_URL}/Publication/GetAllPerPublicationViews`,
+    options: {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+    },
+  };
+}
+
+export function PUBLICATION_DETAILS_GET(id) {
+  return {
+    url: `${API_URL}/Publication/publicationDetails/${id}`,
+    options: {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+    },
+  };
+}
+
+export function PUBLICATION_DETAILS_DELETE(id) {
+  return {
+    url: `${API_URL}/Publication/${id}`,
+    options: {
+      method: 'DELETE',
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
     },
   };
 }

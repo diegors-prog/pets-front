@@ -2,7 +2,7 @@
   background: #fff;
   margin: 15px 10px;
   border-radius: 10px;
-  padding: 5px 0px;
+  padding: 5px 0px 0px 0px;
   box-shadow: 0 10px 25px rgba(92, 99, 105, 0.2);
 }
 
@@ -36,22 +36,28 @@
 
 .profile p {
   margin-left: 5px;
+  font-size: 14px;
   font-weight: bold;
   font-family: var(--type-second);
   margin-bottom: 0px !important;
+}
+
+.creationDate {
+  font-size: 10px;
+  margin-left: 10px;
 }
 
 .img {
   width: 100%;
 }
 
-.description {
+.descriptionCard {
   padding: 0 5px;
 }
 
-.description h2 {
+.descriptionCard h2 {
   margin-top: 5px;
-  font-size: 30px;
+  font-size: 24px;
   font-family: var(--type-second);
 }
 
@@ -59,32 +65,45 @@
   font-style: italic;
 }
 
-.description p {
+.descriptionCard p {
   font-size: 14px;
   margin-top: 5px;
   color: #949c9b;
+  line-height: normal;
 }
 
 .viewComment {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .icons {
-  margin-top: 10px;
-  margin-right: 20px;
-  width: 50%;
+  margin-top: 5px;
+  width: 42%;
   display: flex;
   justify-content: space-around;
 }
 
 .statusButton {
-  background: #fff;
-  border: none;
-  border-radius: 50%;
-  box-shadow: 5px 5px 15px 0px rgba(44, 44, 44, 0.35);
-  width: 50px;
+  background: #fff !important;
+  border: none !important;
+  border-radius: 50% !important;
+  box-shadow: 5px 5px 15px 0px rgba(44, 44, 44, 0.35) !important;
+  
+  transition: 0.5s ease !important;
+  opacity: 0.6 !important;
+}
+
+#comBorda {
+  /*outline: none !important;
+  box-shadow: 0 0 0 3px #fea, 0 0 0 4px #fb1 !important;
+  color: #764701 !important;
+  border: 2px solid #fb1 !important;*/
+
+  /*transition: 0.5s ease !important;*/
+  opacity: 1 !important;
 }
 
 .commentButton {
@@ -103,4 +122,32 @@
 
 .modalBody {
   margin-top: 65px;
+}
+
+/* .content {
+  height: 70px;
+  overflow: hidden;
+} */
+
+.mais {
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  font-size: 12px;
+}
+
+/* .active {
+  height: auto;
+} */
+
+.description {
+  font-size: 14px;
+  margin-top: 5px;
+  color: #949c9b;
+  line-height: normal;
+  margin-bottom: 0px;
+  transition: max-height 2s ease; /* Define a transição suave */
 }
