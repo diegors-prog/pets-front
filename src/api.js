@@ -242,3 +242,15 @@ export function PUBLICATION_DETAILS_GET(id) {
     },
   };
 }
+
+export function PUBLICATION_DETAILS_DELETE(id) {
+  return {
+    url: `${API_URL}/Publication/${id}`,
+    options: {
+      method: 'DELETE',
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+    },
+  };
+}

@@ -18,6 +18,7 @@ import { ReactComponent as HomeIlustration6 } from '../Assets/origamid-lobo.svg'
 import balta from '../Assets/balta.png';
 import desenvolvedorIO from '../Assets/desenvolvedor-io.jpg';
 import linkedin from '../Assets/linkedin.png';
+import alura from '../Assets/alura.svg';
 import { Toaster, toast } from 'react-hot-toast';
 
 
@@ -136,6 +137,7 @@ const HomePage = () => {
 						<li><img className={`${styles.balta}`} src={linkedin} alt='imagem html' /><a href='https://www.linkedin.com/in/mateusp23/' target='_blank' rel="noreferrer">Mateus Paulart</a></li>
 						<li><img className={`${styles.balta}`} src={linkedin} alt='imagem html' /><a href='https://www.linkedin.com/in/douglas-serena-44ab721a0/' target='_blank' rel="noreferrer">Douglas Serena</a></li>
 						<li><img className={`${styles.balta}`} src={linkedin} alt='imagem html' /><a href='https://www.linkedin.com/in/otavioborgsm/' target='_blank' rel="noreferrer">Otávio Borges</a></li>
+						<li><img className={`${styles.balta}`} src={linkedin} alt='imagem html' /><a href='https://www.linkedin.com/in/garciagisele/' target='_blank' rel="noreferrer">Gisele Garcia</a></li>
 						<li><img className={`${styles.balta}`} src={linkedin} alt='imagem html' /><a href='https://www.linkedin.com/in/gean-zanella-ab95561a3/' target='_blank' rel="noreferrer">Gean Zanella</a></li>
 					</ul>
 				</div>
@@ -145,7 +147,7 @@ const HomePage = () => {
 						<li><HomeIlustration6 /><a href='https://www.origamid.com/' target='_blank' rel="noreferrer">Origamid</a></li>
 						<li><img className={`${styles.balta}`} src={balta} alt='imagem html' /><a href='https://balta.io/' target='_blank' rel="noreferrer">Balta</a></li>
 						<li><img className={`${styles.balta}`} src={desenvolvedorIO} alt='imagem html' /><a href='https://desenvolvedor.io/inicio' target='_blank' rel="noreferrer">Desenvolvedor IO</a></li>
-						<li><a href='https://www.alura.com.br/?utm_source=bing&utm_medium=cpc&utm_campaign=institucional-brand&msclkid=73715e8cdfa11fe8e8ab3ab4120f9880' target='_blank' rel="noreferrer">Alura</a></li>
+						<li><img className={`${styles.balta}`} src={alura} alt='imagem html' /><a href='https://www.alura.com.br/?utm_source=bing&utm_medium=cpc&utm_campaign=institucional-brand&msclkid=73715e8cdfa11fe8e8ab3ab4120f9880' target='_blank' rel="noreferrer">Alura</a></li>
 					</ul>
 				</div>
 			</footer>

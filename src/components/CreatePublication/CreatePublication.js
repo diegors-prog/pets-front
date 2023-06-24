@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 import styles from './CreatePublication.module.css';
 import { useNavigate } from 'react-router-dom';
 import { Toaster, toast } from 'react-hot-toast';
@@ -120,12 +122,68 @@ const CreatePublication = () => {
     }
   }
 
-  function handleImgChange({ target }) {
-    setImg({
-      preview: URL.createObjectURL(target.files[0]),
-      raw: target.files[0],
+  async function cropImage(file) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+
+      img.onload = () => {
+        const width = 1000;
+        const height = 1000;
+        let x = 0;
+        let y = 0;
+        const originalWidth = img.width;
+        const originalHeight = img.height;
+
+        if (originalWidth > originalHeight) {
+          x = (originalWidth - width) / 2;
+        } else {
+          y = (originalHeight - height) / 2;
+        }
+
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, x, y, width, height, 0, 0, width, height);
+
+        canvas.toBlob((blob) => {
+          resolve(blob);
+        }, file.type);
+      };
+
+      img.onerror = (error) => {
+        reject(error);
+      };
     });
-    validateForm();
+  }
+
+  async function handleImgChange({ target }) {
+    const file = target.files[0];
+    const imageName = target.files[0].name;
+    const acceptedFormats = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
+
+    if (!acceptedFormats.includes(file.type)) {
+      console.log("Formato de arquivo inválido. Por favor, selecione uma imagem nos formatos JPG, JPEG, PNG ou GIF.");
+      return;
+    }
+
+    try {
+      const croppedBlob = await cropImage(file);
+      const croppedFile = new File([croppedBlob], imageName, {
+        type: file.type,
+        lastModified: Date.now(),
+      });
+
+      console.log(croppedFile);
+      setImg({
+        preview: URL.createObjectURL(croppedFile),
+        raw: croppedFile,
+      });
+      validateForm();
+    } catch (error) {
+      console.log("Erro ao cortar a imagem:", error);
+    }
   }
 
   return (

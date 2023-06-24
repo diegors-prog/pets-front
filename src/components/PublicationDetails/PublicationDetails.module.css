@@ -22,7 +22,11 @@
     }
   }
 
-.modalBody {
+.modalHeader {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center;
+  width: 270px;
 }
 
 .cardDetail {

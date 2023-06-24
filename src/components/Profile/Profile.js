@@ -73,6 +73,13 @@ const Profile = () => {
     return letter + restOfTheWord;
   }
 
+  function removeItemInMyPublications(id) {
+    console.log(myPublications);
+    const updatedPublications = myPublications.filter((publication) => publication.id !== id);
+    setMyPublications(updatedPublications);
+    console.log(myPublications);
+  }
+
   let activeList;
   if (activeTab === 0) {
     activeList = myPublications;
@@ -112,12 +119,13 @@ const Profile = () => {
             <PublicationDetails
               key={item.id}
               publication={item}
+              removeItemInMyPublications={removeItemInMyPublications}
             />
           )) : <div className={`${styles.NotFound}`}> <NotFoundPublications /> <p>Ainda não há nenhuma publicação</p> </div>}
         </div>
       </section>
     );
-    else return null;
+  else return null;
 };
 
 export default Profile;

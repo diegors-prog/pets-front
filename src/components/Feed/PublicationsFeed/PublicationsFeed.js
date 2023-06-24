@@ -110,7 +110,7 @@ const PublicationsFeed = ({ publication }) => {
     const horas = dataObj.getHours().toString().padStart(2, '0');
     const minutos = dataObj.getMinutes().toString().padStart(2, '0');
     
-    return `${dia}/${mes}/${ano} as ${horas}h${minutos}`;
+    return `${dia}/${mes}/${ano} as ${horas}h e ${minutos}min`;
   }
 
   function handleDescriptionPlus() {
