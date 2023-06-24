@@ -7,10 +7,11 @@ import { ReactComponent as Profile } from '../Assets/cassio.svg';
 import { ReactComponent as CreatePublication } from '../Assets/material-add-to-photos.svg';
 
 const Footer = () => {
-  const { data, login, latitude, longitude } = React.useContext(UserContext);
+  const { data, login, latitude, longitude, notificationPermission } = React.useContext(UserContext);
 
   if (!login) return null;
   else if (login && !latitude && !longitude) return null;
+  else if (login && latitude && longitude && !notificationPermission) return null;
   else {
     return (
       <footer className={styles.footer}>

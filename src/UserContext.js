@@ -1,5 +1,5 @@
 import React from 'react';
-import { TOKEN_POST, TOKEN_VALIDATE_POST, USER_GET } from './api';
+import { TOKEN_POST, TOKEN_VALIDATE_POST, USER_GET, SUB_DATA_USER_PATCH } from './api';
 import { useNavigate } from 'react-router-dom';
 import { Toaster, toast } from 'react-hot-toast';
 import { messaging } from './firebaseinit';
@@ -79,6 +79,7 @@ export const UserStorage = ({ children }) => {
       await getUser(data.token);
       requestNotificationPermission();
       if (latitude && longitude && notificationPermission) {
+        await fetchSubDataUser();
         navigate('/feed');
       } else if (!latitude && !longitude)
         navigate('/feed/location');
@@ -91,6 +92,16 @@ export const UserStorage = ({ children }) => {
       setLogin(false);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function fetchSubDataUser() {
+    const deviceToken = await getDeviceToken();
+    console.log({ deviceToken: deviceToken });
+    if (deviceToken && latitude && longitude) {
+      const { url, options } = SUB_DATA_USER_PATCH({ latitude: latitude, longitude: longitude, deviceToken: deviceToken });
+      const patchRes = await fetch(url, options);
+      if (!patchRes.ok) throw new Error(`Error: ${patchRes.statusText}`);
     }
   }
 
@@ -107,8 +118,10 @@ export const UserStorage = ({ children }) => {
           const { data } = await response.json();
           await getUser(data.token);
           if (!notificationPermission) await requestNotificationPermission();
-          if (latitude && longitude && notificationPermission)
+          if (latitude && longitude && notificationPermission){
+            await fetchSubDataUser();
             navigate('/feed');
+          }
           else if (!latitude && !longitude)
             navigate('/feed/location');
           else if (latitude && longitude && !notificationPermission)

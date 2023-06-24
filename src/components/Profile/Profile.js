@@ -3,6 +3,7 @@ import styles from './Profile.module.css';
 import { UserContext } from '../../UserContext';
 import { ReactComponent as MyPublicationsIcon } from '../../Assets/Icon awesome-border-all.svg';
 import { ReactComponent as MyPublicationsViewsIcon } from '../../Assets/Icon material-wallpaper.svg';
+import { ReactComponent as NotFoundPublications } from '../../Assets/Group10.svg';
 import { MY_PUBLICATIONS_GET,  PUBLICATIONS_PER_PUBLICATION_VIEWS_GET} from '../../api';
 import PublicationDetails from '../PublicationDetails/PublicationDetails';
 
@@ -72,6 +73,13 @@ const Profile = () => {
     return letter + restOfTheWord;
   }
 
+  function removeItemInMyPublications(id) {
+    console.log(myPublications);
+    const updatedPublications = myPublications.filter((publication) => publication.id !== id);
+    setMyPublications(updatedPublications);
+    console.log(myPublications);
+  }
+
   let activeList;
   if (activeTab === 0) {
     activeList = myPublications;
@@ -106,41 +114,18 @@ const Profile = () => {
             <MyPublicationsViewsIcon />
           </button>
         </div>
-        <div className={`${styles.gridPosts}`}>
-        {activeList && activeList.map((item) => (
-          <PublicationDetails
-            key={item.id}
-            publication={item}
-          />
-          // <div key={item.id}>
-          //   <button onClick={() => handleShow(item.id)} className={styles.buttonDetails}>
-          //     <figure key={item.id} className={`${styles.imgItem} ${styles.fadeIn}`}>
-          //       <img className={`${styles.image}`} src={item.image} alt='imagem html' />
-          //     </figure>
-          //   </button>
-          //   <Modal
-          //     dialogClassName={`${styles.customModal}`}
-          //     show={show}
-          //     onHide={handleClose}
-          //   >
-          //     <Modal.Header closeButton className={styles.modalHeader}>
-          //       <Modal.Title>Detalhes do item {publicationDetailsId}</Modal.Title>
-          //     </Modal.Header>
-          //     <Modal.Body className={styles.modalBody}>
-          //       {myPublications && myPublicationsViews && (
-          //         <PublicationDetails
-          //           key={index}
-          //           publicationId={publicationDetailsId}
-          //         />
-          //       )}
-          //     </Modal.Body>
-          //   </Modal>
-          // </div>
-        ))}
+        <div className={`${activeList.length > 0 ? styles.gridPosts : ''}`}>
+          {activeList && activeList.length > 0 ? activeList.map((item) => (
+            <PublicationDetails
+              key={item.id}
+              publication={item}
+              removeItemInMyPublications={removeItemInMyPublications}
+            />
+          )) : <div className={`${styles.NotFound}`}> <NotFoundPublications /> <p>Ainda não há nenhuma publicação</p> </div>}
         </div>
       </section>
     );
-    else return null;
+  else return null;
 };
 
 export default Profile;

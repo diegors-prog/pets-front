@@ -1,4 +1,4 @@
-const API_URL = 'https://localhost:44330/api';
+const API_URL = 'https://petfinder360-api-production.up.railway.app/api';
 
 export function TOKEN_POST(body) {
   return {
@@ -236,6 +236,18 @@ export function PUBLICATION_DETAILS_GET(id) {
     url: `${API_URL}/Publication/publicationDetails/${id}`,
     options: {
       method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+      },
+    },
+  };
+}
+
+export function PUBLICATION_DETAILS_DELETE(id) {
+  return {
+    url: `${API_URL}/Publication/${id}`,
+    options: {
+      method: 'DELETE',
       headers: {
         Authorization: 'Bearer ' + window.localStorage.getItem('token'),
       },

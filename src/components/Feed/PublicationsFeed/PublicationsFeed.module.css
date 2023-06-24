@@ -51,12 +51,11 @@
   width: 100%;
 }
 
-.description {
+.descriptionCard {
   padding: 0 5px;
-  margin-bottom: 3px;
 }
 
-.description h2 {
+.descriptionCard h2 {
   margin-top: 5px;
   font-size: 24px;
   font-family: var(--type-second);
@@ -66,10 +65,11 @@
   font-style: italic;
 }
 
-.description p {
+.descriptionCard p {
   font-size: 14px;
   margin-top: 5px;
   color: #949c9b;
+  line-height: normal;
 }
 
 .viewComment {
@@ -122,4 +122,32 @@
 
 .modalBody {
   margin-top: 65px;
+}
+
+/* .content {
+  height: 70px;
+  overflow: hidden;
+} */
+
+.mais {
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  font-size: 12px;
+}
+
+/* .active {
+  height: auto;
+} */
+
+.description {
+  font-size: 14px;
+  margin-top: 5px;
+  color: #949c9b;
+  line-height: normal;
+  margin-bottom: 0px;
+  transition: max-height 2s ease; /* Define a transição suave */
 }

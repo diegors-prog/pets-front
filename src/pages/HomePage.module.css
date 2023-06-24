@@ -92,6 +92,34 @@
   display: inline-block;
 }
 
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list li {
+  font-size: 14px;
+  display: flex; /* Aplica o modelo de layout flexível */
+  align-items: center;
+  color: #000; /* Cor do link */
+  text-decoration: none; /* Remover sublinhado */
+  transition: color 0.3s;
+  margin-bottom: 8px;
+}
+
+.list li a {
+  color: #484848;
+  text-decoration: none;
+  transition: color 0.3s;
+  margin-left: 5px;
+}
+
+.list li a:hover {
+  color: #000000; /* Cor do link ao passar o mouse */
+  font-weight: 600;
+}
+
 @media (max-width: 38rem) {
     .homePageContainer {
       display: grid;
