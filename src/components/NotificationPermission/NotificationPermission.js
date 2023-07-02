@@ -22,6 +22,9 @@ const NotificationPermission = () => {
 		if (permission === 'granted') {
 		  setNotificationPermission(true)
 		  console.log('Permissão de notificação concedida');
+		} else {
+			setNotificationPermission(true)
+		  	console.log('Permissão de notificação não concedida');
 		}
 	}
 

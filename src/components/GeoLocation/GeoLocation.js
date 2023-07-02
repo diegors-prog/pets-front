@@ -8,9 +8,8 @@ import { ReactComponent as GeoIlustration6 } from '../../Assets/undraw_navigatio
 const GeoLocation = () => {
 	const { login, latitude, longitude, notificationPermission, setLatitude,  setLongitude} = React.useContext(UserContext);
 	const navigate = useNavigate();
-	console.log({lat: latitude, long: longitude});
+
 	React.useEffect(() => {
-		console.log({lat: latitude, long: longitude});
 		if (login && latitude && longitude && notificationPermission)
 		navigate("/feed")
 		else if (login && latitude && longitude && !notificationPermission)
