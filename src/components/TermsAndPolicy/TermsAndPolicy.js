@@ -11,6 +11,7 @@ const TermsAndPolicy = () => {
       isMounted.current = false; // Atualizar o valor da ref para false quando o componente for desmontado
     };
   }, []);
+  
 
   const handleClose = () => {
     setShow(false);
