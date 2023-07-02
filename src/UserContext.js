@@ -70,6 +70,8 @@ export const UserStorage = ({ children }) => {
     try {
       setError(null);
       setLoading(true);
+      let platform = navigator?.userAgentData?.platform || navigator?.platform || 'unknown'
+      console.log(platform);
       const { url, options } = TOKEN_POST({ email, password });
       const tokenRes = await fetch(url, options);
       if (!tokenRes.ok) throw new Error(`Error: ${tokenRes.statusText}`);

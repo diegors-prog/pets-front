@@ -59,7 +59,7 @@ const HomePage = () => {
 	React.useEffect(() => {
 		if (login && latitude && longitude) navigate('/feed');
 		else if (login && !latitude && !longitude) navigate('/feed/location');
-		else return null;
+		else return undefined;
 	  }, [login, navigate, latitude, longitude]);
 
 	async function handleSubmit(event) {
