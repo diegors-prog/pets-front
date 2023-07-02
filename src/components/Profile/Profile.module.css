@@ -32,6 +32,10 @@
   margin-top: 40px;
 }
 
+.title h3 {
+  margin-bottom: 20px;
+}
+
 .tabs {
   display: flex;
   margin-top: 20px;
@@ -69,4 +73,17 @@
   align-items: center;
   justify-content: center;
   margin-top: 60px;
+}
+
+.fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

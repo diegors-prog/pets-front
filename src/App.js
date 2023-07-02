@@ -10,7 +10,7 @@ import NotFound from './components/NotFound/NotFound';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from './pages/HomePage';
-import { UserStorage, UserContext } from './UserContext';
+import { UserStorage } from './UserContext';
 
 function App() {
   return (

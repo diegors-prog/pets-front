@@ -73,7 +73,7 @@ const PublicationDelete = ({ id }) => {
             onHide={handleClose}
           >
             <Modal.Header closeButton className={styles.modalHeader}>
-              <Modal.Title>Excluir Publicação</Modal.Title>
+              <Modal.Title>Remover do feed</Modal.Title>
             </Modal.Header>
             <Modal.Body className={styles.modalBody}>
               <div className={`${styles.deleteBody} animeLeft`}>

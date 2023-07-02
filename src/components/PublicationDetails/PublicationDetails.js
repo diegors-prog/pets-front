@@ -106,7 +106,7 @@ const PublicationDetails = ({ publication, removeItemInMyPublications }) => {
 								</figure>
 				</button>
 				<Modal
-					dialogClassName={`${styles.customModal}`}
+					dialogClassName="fullscreen"
 					show={show}
 					onHide={handleClose}
 					>

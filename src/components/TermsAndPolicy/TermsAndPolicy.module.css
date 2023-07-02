@@ -1,0 +1,7 @@
+.btnLine {
+    height: 30px;
+    border: 1px solid #CBCBCB;
+    border-radius: 3px;
+    width: 100%;
+    font-weight: 500;
+}

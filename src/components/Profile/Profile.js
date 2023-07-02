@@ -1,15 +1,19 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styles from './Profile.module.css';
 import { UserContext } from '../../UserContext';
+import useFetch from '../../Hooks/useFetch';
 import { ReactComponent as MyPublicationsIcon } from '../../Assets/Icon awesome-border-all.svg';
 import { ReactComponent as MyPublicationsViewsIcon } from '../../Assets/Icon material-wallpaper.svg';
 import { ReactComponent as NotFoundPublications } from '../../Assets/Group10.svg';
 import { MY_PUBLICATIONS_GET,  PUBLICATIONS_PER_PUBLICATION_VIEWS_GET} from '../../api';
 import PublicationDetails from '../PublicationDetails/PublicationDetails';
+import TermsAndPolicy from '../TermsAndPolicy/TermsAndPolicy';
+import Loading from '../Loading/Loading';
 
 const Profile = () => {
   const isMountedRef = React.useRef(true);
-  const { data } = React.useContext(UserContext);
+  const user = React.useContext(UserContext);
+  const { data, loading, error, request, setLoading } = useFetch();
   const [activeTab, setActiveTab] = React.useState(0);
   const [myPublications, setMyPublications] = React.useState(null);
   const [myPublicationsViews, setMyPublicationsViews] = React.useState(null);
@@ -30,8 +34,7 @@ const Profile = () => {
       try {
         if (isMountedRef.current) {
           const { url, options } = MY_PUBLICATIONS_GET();
-          const response = await fetch(url, options);
-          const json = await response.json();
+          const { response, json } = await request(url, options);
           console.log(json.data);
           if (response.ok === false) throw new Error(json.message);
           setMyPublications(json.data);
@@ -46,8 +49,7 @@ const Profile = () => {
       try {
         if (isMountedRef.current) {
           const { url, options } = PUBLICATIONS_PER_PUBLICATION_VIEWS_GET();
-          const response = await fetch(url, options);
-          const json = await response.json();
+          const { response, json } = await request(url, options);
           console.log(json.data);
           if (response.ok === false) throw new Error(json.message);
           setMyPublicationsViews(json.data);
@@ -87,16 +89,18 @@ const Profile = () => {
     activeList = myPublicationsViews;
   }
 
+  if (loading) return <Loading />;
   if (myPublications && myPublicationsViews)
     return (
       <section className={`${styles.profile} container animeLeft`}>
         <div className={styles.top}>
           <div className={styles.spanImage}>
-            <span>{data.name.slice(0, 1).toUpperCase()}</span>
+            <span>{user.data.name.slice(0, 1).toUpperCase()}</span>
           </div>
         </div>
         <div className={styles.title}>
-          <h3>Olá, {firstLetterUppercase(data.name)}</h3>
+          <h3>Olá, {firstLetterUppercase(user.data.name)}</h3>
+          <TermsAndPolicy />
         </div>
         <div className={`${styles.tabs}`}>
           <button
@@ -115,13 +119,13 @@ const Profile = () => {
           </button>
         </div>
         <div className={`${activeList.length > 0 ? styles.gridPosts : ''}`}>
-          {activeList && activeList.length > 0 ? activeList.map((item) => (
+          {activeList && activeList.length > 0 ? activeList.map((item, index) => (
             <PublicationDetails
-              key={item.id}
+              key={index}
               publication={item}
               removeItemInMyPublications={removeItemInMyPublications}
             />
-          )) : <div className={`${styles.NotFound}`}> <NotFoundPublications /> <p>Ainda não há nenhuma publicação</p> </div>}
+          )) : <div className={`${styles.NotFound} ${styles.fadeIn}`}> <NotFoundPublications /> <p>Ainda não há nenhuma publicação</p> </div>}
         </div>
       </section>
     );

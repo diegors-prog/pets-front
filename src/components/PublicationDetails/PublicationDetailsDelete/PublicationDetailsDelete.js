@@ -12,8 +12,6 @@ const PublicationDetailsDelete = ({ publicationId, handleCloseDetails, removeIte
 	const isMounted = React.useRef(true);
   const { loading, request } = useFetch();
   const [show, setShow] = React.useState(false);
-  const [option, setOption] = React.useState(true);
-	console.log();
 
   React.useEffect(() => {
     return () => {
