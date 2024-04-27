@@ -72,6 +72,7 @@ export const UserStorage = ({ children }) => {
       setLoading(true);
       let platform = navigator?.userAgentData?.platform || navigator?.platform || 'unknown'
       console.log(platform);
+      console.log("Plataforma: ", detectPlatformFromWindow());
       const { url, options } = TOKEN_POST({ email, password });
       const tokenRes = await fetch(url, options);
       if (!tokenRes.ok) throw new Error(`Error: ${tokenRes.statusText}`);
@@ -96,6 +97,25 @@ export const UserStorage = ({ children }) => {
       setLoading(false);
     }
   }
+
+  const detectPlatformFromWindow = () => {
+		const platform = window.navigator.platform;
+		const userAgent = window.navigator.userAgent;
+		console.log(platform, userAgent);
+		if (platform === 'Win32' || platform === 'Win64') {
+			return 'Windows';
+		} else if (platform === 'MacIntel' || platform === 'MacPPC') {
+			return 'Macintosh';
+		} else if (platform === 'Linux' || platform === 'X11') {
+			return 'Linux';
+		} else if (/Android/i.test(userAgent)) {
+			return 'Android';
+		} else if (/iPhone|iPad|iPod/i.test(userAgent)) {
+			return 'iOS';
+		} else {
+			return 'Unknown';
+		}
+	};
 
   async function fetchSubDataUser() {
     const deviceToken = await getDeviceToken();
