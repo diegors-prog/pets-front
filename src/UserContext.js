@@ -76,7 +76,6 @@ export const UserStorage = ({ children }) => {
       const tokenRes = await fetch(url, options);
       if (!tokenRes.ok) throw new Error(`Error: ${tokenRes.statusText}`);
       const { data } = await tokenRes.json();
-      console.log("Token: " + data.token);
       window.localStorage.setItem('token', data.token);
       await getUser(data.token);
       requestNotificationPermission();
