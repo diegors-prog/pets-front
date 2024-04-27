@@ -31,6 +31,8 @@ const NotificationPermission = () => {
 		navigate("/feed");
 	}
 
+	let platform = navigator?.userAgentData?.platform || navigator?.platform || 'unknown'
+
 	// React.useEffect(() => {
 	// 	if (login && latitude && longitude && notificationPermission) {
 	// 	  const timeout = setTimeout(() => {
@@ -49,6 +51,7 @@ const NotificationPermission = () => {
 				<p>As notificações são necessárias para fornecer recursos específicos.</p>
 				<NotificationIlustration className={styles.imgNotification} />
 				<p>Por favor, habilite as suas notificações nas configurações do seu navegador, e clique no botão abaixo.</p>
+				<p>{platform && platform}</p>
 				<div>
 					<Button onClick={requestNotificationPermission}>Habilitar Notificação</Button>
 				</div>
