@@ -134,11 +134,6 @@ const HomePage = () => {
 						<li><img className={`${styles.balta}`} src={linkedin} alt='imagem html' /><a href='https://www.linkedin.com/in/vinimagnus/' target='_blank' rel="noreferrer">Vínicios Magnus</a></li>
 						<li><img className={`${styles.balta}`} src={linkedin} alt='imagem html' /><a href='https://www.linkedin.com/in/ramonsl/' target='_blank' rel="noreferrer">Ramon Lummertz</a></li>
 						<li><img className={`${styles.balta}`} src={linkedin} alt='imagem html' /><a href='https://www.linkedin.com/in/arthur-rocha-santos/' target='_blank' rel="noreferrer">Arthur Rocha</a></li>
-						<li><img className={`${styles.balta}`} src={linkedin} alt='imagem html' /><a href='https://www.linkedin.com/in/mateusp23/' target='_blank' rel="noreferrer">Mateus Paulart</a></li>
-						<li><img className={`${styles.balta}`} src={linkedin} alt='imagem html' /><a href='https://www.linkedin.com/in/douglas-serena-44ab721a0/' target='_blank' rel="noreferrer">Douglas Serena</a></li>
-						<li><img className={`${styles.balta}`} src={linkedin} alt='imagem html' /><a href='https://www.linkedin.com/in/otavioborgsm/' target='_blank' rel="noreferrer">Otávio Borges</a></li>
-						<li><img className={`${styles.balta}`} src={linkedin} alt='imagem html' /><a href='https://www.linkedin.com/in/garciagisele/' target='_blank' rel="noreferrer">Gisele Garcia</a></li>
-						<li><img className={`${styles.balta}`} src={linkedin} alt='imagem html' /><a href='https://www.linkedin.com/in/gean-zanella-ab95561a3/' target='_blank' rel="noreferrer">Gean Zanella</a></li>
 					</ul>
 				</div>
 				<div>
