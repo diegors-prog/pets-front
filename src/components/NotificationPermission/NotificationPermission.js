@@ -26,7 +26,7 @@ const NotificationPermission = () => {
 		// } else {
 		// 	setNotificationPermission(true)
 		// 	navigate("/feed");
-		//   	console.log('Permissão de notificação não concedida');
+		//   	console.log('Permissão de notificação não concedida');jj
 		// }
 		navigate("/feed");
 	}
