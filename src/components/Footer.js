@@ -11,7 +11,7 @@ const Footer = () => {
 
   if (!login) return null;
   else if (login && !latitude && !longitude) return null;
-  else if (login && latitude && longitude && !notificationPermission) return null;
+  //else if (login && latitude && longitude && !notificationPermission) return null;
   else {
     return (
       <footer className={styles.footer}>
